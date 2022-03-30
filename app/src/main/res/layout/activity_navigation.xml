@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fafafa"
+    tools:context=".map.activity.SearchActivity"
+    android:orientation="vertical">
+    <androidx.appcompat.widget.SearchView
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        app:queryHint="Navigate to..."
+        android:layout_height="50dp"
+        app:iconifiedByDefault="false"
+        android:nextFocusRight="@color/tab_dark"
+        android:background="@drawable/search_layout"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:id="@+id/choose_map"
+        android:background="@color/white"
+        android:layout_marginTop="13dp">
+
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/noo"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/mymap"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="choose from map"
+            android:textStyle="italic"
+            android:textSize="18sp"
+            android:layout_toEndOf="@id/noo"
+            android:layout_marginStart="20dp"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:id="@+id/search_recycler_view"
+        />
+</LinearLayout>

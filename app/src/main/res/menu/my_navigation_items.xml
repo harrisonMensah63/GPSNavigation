@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/category"
+        android:enabled="true"
+        android:icon="@drawable/category"
+        android:title="@string/categories"
+       />
+
+        <item
+            android:id="@+id/scheduled"
+            android:enabled="true"
+            android:icon="@drawable/planner"
+            android:title="@string/schedule"
+           />
+
+    <item
+        android:id="@+id/favourite"
+        android:enabled="true"
+        android:icon="@drawable/favourite"
+        android:title="@string/favourite"
+        />
+
+
+</menu>

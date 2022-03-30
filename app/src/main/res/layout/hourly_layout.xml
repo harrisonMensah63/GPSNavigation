@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:orientation="horizontal"
+    android:weightSum="7"
+    android:background="@drawable/day_layout">
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textSize="25sp"
+        android:layout_marginStart="10dp"
+        android:layout_gravity="center"
+        android:textColor="#FFFFFF"
+        android:id="@+id/hourly_time"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_marginStart="10dp"
+        android:layout_gravity="center"
+        android:layout_below="@+id/hourly_time"
+        android:textColor="#FFFFFF"
+        android:id="@+id/hourly_description"
+        />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textSize="23sp"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#FFFFFF"
+            android:id="@+id/rain_percentage"/>
+    <com.github.pwittchen.weathericonview.WeatherIconView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/rain_percentage"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_centerVertical="true"
+        android:textSize="30sp"
+        android:id="@+id/rain_percentage_icon"
+         />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textSize="23sp"
+        android:textColor="#FFFFFF"
+        android:id="@+id/hourly_temp" />
+    </RelativeLayout>
+</LinearLayout>

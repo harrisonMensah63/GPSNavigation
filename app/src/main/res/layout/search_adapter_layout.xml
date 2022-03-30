@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="55dp"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal">
+    <ImageView
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="20dp"
+        android:id="@+id/search_image"
+        android:padding="5dp"
+        app:tint="@color/tab_light"
+        android:src="@drawable/ic_home"
+        android:background="@drawable/search"
+        android:contentDescription="TODO" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="20dp"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Home"
+            android:textSize="15sp"
+            android:textStyle="italic"
+            android:textColor="@color/black"
+            android:typeface="sans"
+            android:id="@+id/name"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="6.55445,-0.52455"
+            android:textSize="12sp"
+            android:textStyle="italic"
+            android:layout_below="@+id/name"
+            android:typeface="monospace"
+            android:id="@+id/cord"/>
+    </RelativeLayout>
+
+</LinearLayout>

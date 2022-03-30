@@ -1,0 +1,494 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 16,
+    "identityHash": "efb1bc9f130de25cde4d1567a0f2670a",
+    "entities": [
+      {
+        "tableName": "current",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `currentHumidity` REAL NOT NULL, `CurrentPressure` REAL NOT NULL, `currentWindSpeed` REAL NOT NULL, `currentWindDirection` TEXT, `min_temp_current` REAL NOT NULL, `max_temp_current` REAL NOT NULL, `currentTemp` REAL NOT NULL, `cityName` TEXT, `CurrentClouds` TEXT, `CurrentDescription` TEXT, `currentUvIndex` REAL NOT NULL, `CurrentFeelsLike` REAL NOT NULL, `timeStamp` INTEGER NOT NULL, `currentSunrise` TEXT, `currentSunset` TEXT, `currentVisibility` REAL NOT NULL, `currentTime` TEXT, `alertTitle` TEXT, `alertDescription` TEXT, `alertSeverity` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currentHumidity",
+            "columnName": "currentHumidity",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "CurrentPressure",
+            "columnName": "CurrentPressure",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currentWindSpeed",
+            "columnName": "currentWindSpeed",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currentWindDirection",
+            "columnName": "currentWindDirection",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "min_temp_current",
+            "columnName": "min_temp_current",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "max_temp_current",
+            "columnName": "max_temp_current",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currentTemp",
+            "columnName": "currentTemp",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cityName",
+            "columnName": "cityName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "CurrentClouds",
+            "columnName": "CurrentClouds",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "CurrentDescription",
+            "columnName": "CurrentDescription",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "currentUvIndex",
+            "columnName": "currentUvIndex",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "CurrentFeelsLike",
+            "columnName": "CurrentFeelsLike",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timeStamp",
+            "columnName": "timeStamp",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currentSunrise",
+            "columnName": "currentSunrise",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "currentSunset",
+            "columnName": "currentSunset",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "currentVisibility",
+            "columnName": "currentVisibility",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currentTime",
+            "columnName": "currentTime",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "alertTitle",
+            "columnName": "alertTitle",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "alertDescription",
+            "columnName": "alertDescription",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "alertSeverity",
+            "columnName": "alertSeverity",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Daily",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `dailyHumidity` REAL, `dailyPressure` REAL NOT NULL, `dailySnow` REAL NOT NULL, `dailySeaLevelPressure` REAL NOT NULL, `dailyWindSpeed` REAL NOT NULL, `dailyWindDirection` TEXT, `min_temp_daily` REAL NOT NULL, `max_temp_daily` REAL NOT NULL, `dailyTemp` REAL NOT NULL, `dailyTime` TEXT, `dailyUVIndex` REAL NOT NULL, `dailyFeelsLike` REAL NOT NULL, `dailyDescription` TEXT, `moon_phase_daily` REAL NOT NULL, `moon_phase_lunation_daily` REAL NOT NULL, `moonrise_ts_daily` TEXT, `moonset_ts_daily` TEXT, `sunrise_ts_daily` TEXT, `sunset_ts_daily` TEXT, `app_max_temp_daily` REAL NOT NULL, `app_min_temp_daily` REAL NOT NULL, `DailyRainFall` REAL NOT NULL, `dailyPop` INTEGER NOT NULL, `dailyClouds` TEXT, `dailyVisibility` REAL NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dailyHumidity",
+            "columnName": "dailyHumidity",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dailyPressure",
+            "columnName": "dailyPressure",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dailySnow",
+            "columnName": "dailySnow",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dailySeaLevelPressure",
+            "columnName": "dailySeaLevelPressure",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dailyWindSpeed",
+            "columnName": "dailyWindSpeed",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dailyWindDirection",
+            "columnName": "dailyWindDirection",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "min_temp_daily",
+            "columnName": "min_temp_daily",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "max_temp_daily",
+            "columnName": "max_temp_daily",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dailyTemp",
+            "columnName": "dailyTemp",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dailyTime",
+            "columnName": "dailyTime",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dailyUVIndex",
+            "columnName": "dailyUVIndex",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dailyFeelsLike",
+            "columnName": "dailyFeelsLike",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dailyDescription",
+            "columnName": "dailyDescription",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "moon_phase_daily",
+            "columnName": "moon_phase_daily",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "moon_phase_lunation_daily",
+            "columnName": "moon_phase_lunation_daily",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "moonrise_ts_daily",
+            "columnName": "moonrise_ts_daily",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "moonset_ts_daily",
+            "columnName": "moonset_ts_daily",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sunrise_ts_daily",
+            "columnName": "sunrise_ts_daily",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sunset_ts_daily",
+            "columnName": "sunset_ts_daily",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "app_max_temp_daily",
+            "columnName": "app_max_temp_daily",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "app_min_temp_daily",
+            "columnName": "app_min_temp_daily",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "DailyRainFall",
+            "columnName": "DailyRainFall",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dailyPop",
+            "columnName": "dailyPop",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dailyClouds",
+            "columnName": "dailyClouds",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dailyVisibility",
+            "columnName": "dailyVisibility",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Hourly",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `hourlyHumidity` REAL, `hourlyPressure` REAL NOT NULL, `hourlySnow` REAL NOT NULL, `hourlySeaLevelPressure` REAL NOT NULL, `hourlyWindSpeed` REAL NOT NULL, `hourlyWindDirection` TEXT, `min_temp_hourly` REAL NOT NULL, `max_temp_hourly` REAL NOT NULL, `hourlyTemp` REAL NOT NULL, `hourlyTime` TEXT, `hourlyUVIndex` REAL NOT NULL, `hourlyFeelsLike` REAL NOT NULL, `hourlyDescription` TEXT, `moon_phase_hourly` REAL NOT NULL, `moon_phase_lunation_hourly` REAL NOT NULL, `moonrise_ts_hourly` TEXT, `moonset_ts_hourly` TEXT, `sunrise_ts_hourly` TEXT, `sunset_ts_hourly` TEXT, `app_max_temp_hourly` REAL NOT NULL, `app_min_temp_hourly` REAL NOT NULL, `hourlyRainFall` REAL NOT NULL, `hourlyPop` INTEGER NOT NULL, `hourlyClouds` TEXT, `hourlyVisibility` REAL NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hourlyHumidity",
+            "columnName": "hourlyHumidity",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "hourlyPressure",
+            "columnName": "hourlyPressure",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hourlySnow",
+            "columnName": "hourlySnow",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hourlySeaLevelPressure",
+            "columnName": "hourlySeaLevelPressure",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hourlyWindSpeed",
+            "columnName": "hourlyWindSpeed",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hourlyWindDirection",
+            "columnName": "hourlyWindDirection",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "min_temp_hourly",
+            "columnName": "min_temp_hourly",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "max_temp_hourly",
+            "columnName": "max_temp_hourly",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hourlyTemp",
+            "columnName": "hourlyTemp",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hourlyTime",
+            "columnName": "hourlyTime",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "hourlyUVIndex",
+            "columnName": "hourlyUVIndex",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hourlyFeelsLike",
+            "columnName": "hourlyFeelsLike",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hourlyDescription",
+            "columnName": "hourlyDescription",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "moon_phase_hourly",
+            "columnName": "moon_phase_hourly",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "moon_phase_lunation_hourly",
+            "columnName": "moon_phase_lunation_hourly",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "moonrise_ts_hourly",
+            "columnName": "moonrise_ts_hourly",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "moonset_ts_hourly",
+            "columnName": "moonset_ts_hourly",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sunrise_ts_hourly",
+            "columnName": "sunrise_ts_hourly",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sunset_ts_hourly",
+            "columnName": "sunset_ts_hourly",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "app_max_temp_hourly",
+            "columnName": "app_max_temp_hourly",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "app_min_temp_hourly",
+            "columnName": "app_min_temp_hourly",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hourlyRainFall",
+            "columnName": "hourlyRainFall",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hourlyPop",
+            "columnName": "hourlyPop",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hourlyClouds",
+            "columnName": "hourlyClouds",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "hourlyVisibility",
+            "columnName": "hourlyVisibility",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"efb1bc9f130de25cde4d1567a0f2670a\")"
+    ]
+  }
+}

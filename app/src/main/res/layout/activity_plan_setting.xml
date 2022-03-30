@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/relative_"
+    android:background="#ececea"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@color/tab_light"
+        android:layout_height="50dp"
+        android:id="@+id/layout_top"
+        android:orientation="vertical"
+        android:elevation="200dp"
+        >
+        <EditText
+            android:hint="@string/schedule_name"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="25dp"
+            android:background="#FFF"
+            android:id="@+id/edit_title"
+            android:textSize="22sp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/plan_layout"
+        android:layout_below="@+id/layout_top"
+        >
+        <ScrollView
+            android:layout_above="@+id/save_plan"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/relative_1"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="@color/white"
+        android:background="@drawable/rectangle_2"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/enter_address"
+            android:layout_toStartOf="@+id/address_view"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="15dp"
+            android:id="@+id/entering_address_plan"
+            android:textSize="18sp"/>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="32dp"
+            android:id="@+id/address_view"
+            android:layout_toStartOf="@+id/finger_plan"
+            android:background="@color/black"
+            android:layout_centerVertical="true"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/map"
+            android:id="@+id/finger_plan"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="15dp"
+            android:textSize="20sp"
+            app:drawableLeftCompat="@drawable/hand"
+            />
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/relative_2"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="@color/white"
+        android:background="@drawable/rectangle_2"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/enter_address"
+            android:layout_toStartOf="@id/address_view_second"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="15dp"
+            android:id="@+id/entering_address_plan_second"
+            android:textSize="18sp"/>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="32dp"
+            android:id="@+id/address_view_second"
+            android:layout_toStartOf="@+id/finger_plan_second"
+            android:background="@color/black"
+            android:layout_centerVertical="true"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/map"
+            android:id="@+id/finger_plan_second"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="15dp"
+            android:textSize="20sp"
+            app:drawableLeftCompat="@drawable/hand"
+            />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/button_time"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/tab_light"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:background="@color/tab_light"
+        android:textColor="@color/white"
+        android:textSize="19sp"
+        android:layout_marginTop="20dp"
+
+        android:layout_marginBottom="10dp"
+        android:text="@string/set_time" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="center"
+        >
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:id="@+id/linear_bonus"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:id="@+id/days_text"
+                android:layout_gravity="center_horizontal"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:id="@+id/month_text"
+                android:layout_gravity="center_horizontal"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:id="@+id/current_time"
+            android:layout_centerVertical="true"
+            android:background="@color/white"
+            android:layout_marginStart="60dp"
+            android:layout_toEndOf="@+id/linear_bonus"
+            />
+
+    </RelativeLayout>
+
+        </LinearLayout>
+        </ScrollView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:elevation="100dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:text="@string/save"
+            android:textColor="@color/white"
+            android:textSize="19sp"
+            android:gravity="center"
+            android:background="@color/tab_light"
+            android:id="@+id/save_plan"
+            android:textStyle="bold"/>
+    </RelativeLayout>
+</RelativeLayout>

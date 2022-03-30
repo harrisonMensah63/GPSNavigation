@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/daily_main_layout"
+    android:background="#B86832"
+    tools:context=".weather.forwardActivity.DailyActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/daily_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"  >
+                <TextView
+                    android:id="@+id/date_detalis"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/feelslike"
+                    android:textColor="#cacdcd"
+                    android:layout_marginStart="10dp"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/feelings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/feelslike"
+                    android:textColor="#cacdcd"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="10dp"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="20sp" />
+
+                <RelativeLayout
+                    android:id="@+id/layout123"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp">
+
+                    <TextView
+                        android:id="@+id/daily_detail_temp_max"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:textColor="#FFF"
+                        android:paddingTop="-10dp"
+                        android:textSize="40sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/daily_detail_feel_max"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="20dp"
+                        android:textColor="#FFF"
+                        android:textSize="40sp"
+
+                        />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/layout1234"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/layout123"
+                    android:layout_marginTop="20dp">
+
+                    <TextView
+                        android:id="@+id/daily_detail_temp_min"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:gravity="center_vertical"
+                        android:textColor="#FFF"
+                        android:textSize="40sp" />
+
+                    <TextView
+                        android:id="@+id/daily_detail_feel_min"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
+                        android:layout_alignParentEnd="true"
+                        android:textColor="#FFF"
+                        android:textSize="40sp" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+            <RelativeLayout
+                android:layout_marginTop="15dp"
+                android:id="@+id/title"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="250dp">
+
+                <com.google.android.gms.ads.AdView
+                    xmlns:ads="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/daily_adview"
+                    ads:adSize="MEDIUM_RECTANGLE"
+                    ads:adUnitId="ca-app-pub-2650278620916037/1082353084"
+                    />
+
+
+            </RelativeLayout>
+
+                <LinearLayout
+                    android:background="@color/tab_light"
+                    android:orientation="vertical"
+                    android:id="@+id/head_daily_activity"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+            <LinearLayout
+                android:id="@+id/check1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/daily_title"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:weightSum="13">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4">
+
+                    <TextView
+                        android:id="@+id/daily_detail_humidity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_horizontal"
+                        android:text="@string/humidity"
+                        android:textSize="23sp"
+                        android:textColor="#cacdcd"/>
+
+                    <TextView
+                        android:id="@+id/daily_detail_humidity_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/daily_detail_humidity"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#FFFFFF"
+                        android:textSize="25sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4">
+
+                    <TextView
+                        android:id="@+id/daily_detail_pressure"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center_horizontal"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/pressure"
+                        android:textSize="23sp"
+                        android:textColor="#cacdcd"/>
+
+                    <TextView
+                        android:id="@+id/daily_detail_pressure_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/daily_detail_pressure"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#FFFFFF"
+                        android:textSize="25sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5">
+
+                    <TextView
+                        android:id="@+id/daily_detail_gust"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_horizontal"
+                        android:text="@string/wind_gust"
+                        android:textColor="#cacdcd"
+                        android:textSize="23sp" />
+
+                    <TextView
+                        android:id="@+id/daily_detail_gust_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/daily_detail_gust"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#FFFFFF"
+                        android:textSize="25sp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/check2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/check1"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:weightSum="13">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4">
+
+                    <TextView
+                        android:id="@+id/daily_detail_visibility"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/visibility"
+                        android:gravity="center_horizontal"
+                        android:textColor="#cacdcd"
+                        android:textSize="23sp" />
+
+                    <TextView
+                        android:id="@+id/daily_detail_visibity_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/daily_detail_visibility"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#FFFFFF"
+                        android:textSize="25sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4">
+
+                    <TextView
+                        android:id="@+id/daily_detail_cloud"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/cloud"
+                        android:gravity="center_horizontal"
+                        android:textColor="#cacdcd"
+                        android:textSize="23sp" />
+
+                    <TextView
+                        android:id="@+id/daily_detail_cloud_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/daily_detail_cloud"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#FFFFFF"
+                        android:textSize="25sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5">
+
+                    <TextView
+                        android:id="@+id/daily_detail_speed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/wind_speed"
+                        android:gravity="center_horizontal"
+                        android:textColor="#cacdcd"
+                        android:textSize="23sp" />
+
+                    <TextView
+                        android:id="@+id/daily_detail_speed_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/daily_detail_speed"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#FFFFFF"
+                        android:textSize="25sp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/check3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/check2"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:weightSum="13">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4">
+
+                    <TextView
+                        android:id="@+id/daily_detail_index"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/uv_index"
+                        android:gravity="center_horizontal"
+                        android:textSize="23sp"
+                        android:textColor="#cacdcd"                        />
+
+                    <TextView
+                        android:id="@+id/daily_detail_index_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/daily_detail_index"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#FFFFFF"
+                        android:textSize="25sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4">
+
+                    <TextView
+                        android:id="@+id/daily_detail_rain"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/rain"
+                        android:gravity="center_horizontal"
+                        android:textColor="#cacdcd"
+                        android:textSize="23sp" />
+
+                    <TextView
+                        android:id="@+id/daily_detail_rain_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/daily_detail_rain"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#FFFFFF"
+                        android:textSize="25sp" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5">
+
+                    <TextView
+                        android:id="@+id/daily_detail_direction"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/winds_from"
+                        android:gravity="center_horizontal"
+                        android:textColor="#cacdcd"
+                        android:textSize="23sp" />
+
+                    <TextView
+                        android:id="@+id/daily_detail_direction_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/daily_detail_direction"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#FFFFFF"
+                        android:textSize="25sp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/check4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/check3"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:weightSum="18">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5">
+
+                    <TextView
+                        android:id="@+id/daily_detail_snow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/snow"
+                        android:gravity="center_horizontal"
+                        android:textColor="#cacdcd"
+                        android:textSize="23sp" />
+
+                    <TextView
+                        android:id="@+id/daily_detail_snow_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/daily_detail_snow"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#FFFFFF"
+                        android:textSize="25sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="7">
+
+                    <TextView
+                        android:id="@+id/daily_detail_chance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/rain_chance"
+                        android:gravity="center_horizontal"
+                        android:textColor="#cacdcd"
+                        android:textSize="23sp" />
+
+                    <TextView
+                        android:id="@+id/daily_detail_chance_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/daily_detail_chance"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="4dp"
+                        android:textColor="#FFFFFF"
+                        android:textSize="25sp" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="2"
+                android:orientation="horizontal">
+
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_weight="1"
+
+              >
+
+                    <TextView
+                        android:layout_marginEnd="10dp"
+                        android:id="@+id/sunrise"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center_horizontal"
+                        android:text="@string/sunrise"
+                        android:textColor="#cacdcd"
+                        android:textSize="20sp" />
+
+                    <ImageView
+                        android:id="@+id/sunrise_image"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_below="@+id/sunrise"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/icons_sunrise" />
+
+                    <TextView
+                        android:id="@+id/daily_detail_sunrise_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/sunrise_image"
+                        android:layout_centerInParent="true"
+                        android:textColor="#FFF"
+                        android:textSize="25sp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    >
+
+                    <TextView
+                        android:id="@+id/sunset"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center_horizontal"
+                        android:text="@string/sunset"
+                        android:layout_marginStart="10dp"
+                        android:textColor="#cacdcd"
+                        android:textSize="20sp" />
+
+                    <ImageView
+                        android:id="@+id/sunset_image"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_below="@+id/sunset"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/icons_sunset" />
+
+                    <TextView
+                        android:id="@+id/daily_detail_sunset_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/sunset_image"
+                        android:layout_centerInParent="true"
+                        android:textColor="#FFF"
+                        android:textSize="25sp" />
+
+                </RelativeLayout>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:visibility="invisible"
+                />
+            </LinearLayout>
+        </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

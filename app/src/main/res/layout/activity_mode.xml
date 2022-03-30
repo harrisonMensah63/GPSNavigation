@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="50dp"
+    tools:context=".map.activity.ModeActivity"
+
+    >
+
+
+    <ImageView
+        android:id="@+id/choosing_car"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/search"
+        android:elevation="100dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/car" />
+
+    <ImageView
+        android:id="@+id/choosing_Bus"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/search"
+        android:elevation="100dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/bus" />
+
+    <ImageView
+        android:padding="5dp"
+        android:src="@drawable/motor"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/search"
+        android:elevation="100dp"
+        android:layout_gravity="center_vertical"
+        android:id="@+id/choosing_motor"/>
+
+    <ImageView
+        android:padding="5dp"
+        android:id="@+id/choosing_bike"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/search"
+        android:elevation="100dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/bike" />
+
+    <ImageView
+        android:padding="8dp"
+        android:src="@drawable/walk"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/search"
+        android:elevation="100dp"
+        android:layout_gravity="center_vertical"
+        android:id="@+id/choosing_walk"/>
+
+</LinearLayout>

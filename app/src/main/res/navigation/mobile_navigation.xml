@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/current_fragment"
+        android:name="com.harryWorld.navigationGPS.weather.fragment.CurrentFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/current_fragment"
+        />
+
+    <fragment
+        android:id="@+id/hourly_fragment"
+        android:name="com.harryWorld.navigationGPS.weather.fragment.HourlyFragment"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/hourly_fragment" />
+
+    <fragment
+        android:id="@+id/daily_fragment"
+        android:name="com.harryWorld.navigationGPS.weather.fragment.DailyFragment"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/daily_fragment" />
+
+</navigation>
