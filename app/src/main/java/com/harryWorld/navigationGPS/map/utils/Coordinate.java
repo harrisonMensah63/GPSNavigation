@@ -6,26 +6,17 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class Coordinate {
-    @SerializedName("place_id")
+    @SerializedName("geojson")
     @Expose
-    private int placeId;
-    private GeoJson geojson;
+    private List<GeoJson> geojson;
     private String errorMessage;
     private int errorName;
 
-    @SerializedName("coordinates")
-    @Expose
-    private List<Double> coordinates;
-
-    public Coordinate() {
-         geojson = new GeoJson();
-    }
-
-    public GeoJson getGeojson() {
+    public List<GeoJson> getGeojson() {
         return geojson;
     }
 
-    public void setGeojson(GeoJson geojson) {
+    public void setGeojson(List<GeoJson> geojson) {
         this.geojson = geojson;
     }
 
@@ -45,19 +36,4 @@ public class Coordinate {
         this.errorName = errorName;
     }
 
-    public List<Double> getCoordinates() {
-        return coordinates;
-    }
-
-    public void setCoordinates(List<Double> coordinates) {
-        this.coordinates = coordinates;
-    }
-
-    public int getPlaceId() {
-        return placeId;
-    }
-
-    public void setPlaceId(int placeId) {
-        this.placeId = placeId;
-    }
 }

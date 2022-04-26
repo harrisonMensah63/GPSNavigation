@@ -333,8 +333,15 @@ public class PlanSettingActivity extends AppCompatActivity implements
                     Toast.makeText(this,
                             R.string.enter_address_name,
                             Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "onClick: there was a problem with address");
                 }
                 else{
+                    if (firstAddressName.getText().toString().equals(getString(R.string.enter_address))
+                     || secondAddressName.getText().toString().equals(getString(R.string.enter_address))){
+                        Toast.makeText(this,
+                                R.string.enter_address_name,
+                                Toast.LENGTH_SHORT).show();
+                    }
                     Log.d(TAG, "onClick: there was no problem");
                     editTitle.setText(editTitle.getText().toString());
                     getSchedule();

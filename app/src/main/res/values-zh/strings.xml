@@ -116,4 +116,8 @@
     <string name="no_route_found">找不到路线</string>
     <string name="tomorrow">明天</string>
     <string name="please_wait">请稍等…</string>
+    <string name="hours">小时</string>
+    <string name="hour">小时</string>
+    <string name="minutes">分钟</string>
+    <string name="minute">分钟</string>
 </resources>

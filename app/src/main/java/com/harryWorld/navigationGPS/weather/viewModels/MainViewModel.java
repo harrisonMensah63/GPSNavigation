@@ -124,6 +124,7 @@ public class MainViewModel extends AndroidViewModel {
             public void onResponse(Call<Climate> call, Response<Climate> response) {
                 if (response.isSuccessful()){
                     if (response.body() != null){
+                        connector.loading.setValue(false);
                         climateData.setValue(response.body());
                     }
                     else{
@@ -141,6 +142,7 @@ public class MainViewModel extends AndroidViewModel {
 
             @Override
             public void onFailure(Call<Climate> call, Throwable t) {
+                connector.loading.setValue(false);
                 Log.d(TAG, "onFailure: climate response failed "+t.getMessage());
                 String network ="";
                 network = String.valueOf(R.string.networkConnection);

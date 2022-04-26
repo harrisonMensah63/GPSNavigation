@@ -116,4 +116,8 @@
     <string name="no_route_found">لم يتم العثور على طريق</string>
     <string name="tomorrow">غدا</string>
     <string name="please_wait">أرجو الإنتظار…</string>
+    <string name="hours">ساعات</string>
+    <string name="hour">ساعة</string>
+    <string name="minutes">الدقائق</string>
+    <string name="minute">اللحظة</string>
 </resources>

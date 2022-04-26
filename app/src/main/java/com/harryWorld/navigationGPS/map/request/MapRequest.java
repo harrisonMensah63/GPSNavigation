@@ -12,7 +12,7 @@ import retrofit2.http.Query;
 public interface MapRequest {
 
     @GET("search.php")
-    Flowable<Resource<List<Coordinate>>> getCoordinate(
+    Flowable<Resource<List<List<Coordinate>>>> getCoordinate(
             @Query("q") String name,
             @Query("polygon_geojson") int one,
             @Query("format") String jasing

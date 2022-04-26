@@ -3,6 +3,7 @@ package com.harryWorld.navigationGPS.weather.request;
 import com.harryWorld.navigationGPS.map.retrofit.Direction;
 import com.harryWorld.navigationGPS.map.retrofit.GO;
 import com.harryWorld.navigationGPS.map.retrofit.Geocode;
+import com.harryWorld.navigationGPS.map.utils.direction.Directions;
 import com.harryWorld.navigationGPS.weather.api.Climate;
 import com.harryWorld.navigationGPS.weather.utils.Alert;
 import com.harryWorld.navigationGPS.weather.utils.Resource;
@@ -87,6 +88,13 @@ public interface WeatherRequest {
             @Path("query") String query,
             @Query("key") String apiKey,
             @Query("language") String language
+    );
+    @GET("directions/{route_mode}")
+    Call<Directions> getOpenDirection(
+            @Path("route_mode") String query,
+            @Query("api_key") String apiKey,
+            @Query("start") String start,
+            @Query("end") String end
     );
     @GET("geocode/{query}")
     Flowable<Resource<GO>> getGeocode(

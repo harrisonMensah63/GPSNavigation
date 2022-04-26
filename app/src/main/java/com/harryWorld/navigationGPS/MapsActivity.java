@@ -17,15 +17,12 @@ import com.harryWorld.navigationGPS.map.activity.AddingFavouriteActivity;
 import com.harryWorld.navigationGPS.map.activity.PlanSettingActivity;
 import com.harryWorld.navigationGPS.map.activity.SearchActivity;
 import com.harryWorld.navigationGPS.map.retrofit.GO;
-import com.harryWorld.navigationGPS.map.retrofit.Geocode;
 import com.harryWorld.navigationGPS.map.utils.Places;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.IntentSender;
@@ -60,6 +57,9 @@ import com.harryWorld.navigationGPS.map.activity.CategoriesActivity;
 import com.harryWorld.navigationGPS.map.activity.YourPlaceActivity;
 import com.harryWorld.navigationGPS.map.constant.DetectedActivityReceiver;
 import com.harryWorld.navigationGPS.map.utils.Coordinate;
+import com.harryWorld.navigationGPS.map.utils.direction.Directions;
+import com.harryWorld.navigationGPS.map.utils.direction.Segments;
+import com.harryWorld.navigationGPS.map.utils.direction.Steps;
 import com.harryWorld.navigationGPS.map.viewModels.CoordinateViewModel;
 import com.harryWorld.navigationGPS.map.viewModels.PlacesViewModel;
 import com.harryWorld.navigationGPS.map.viewModels.VolleyViewModel;
@@ -163,7 +163,9 @@ import static com.harryWorld.navigationGPS.map.constant.Constant.SCHEDULE_U_I;
 import static com.harryWorld.navigationGPS.map.constant.Constant.SECOND_ADDRESS;
 import static com.harryWorld.navigationGPS.map.constant.Constant.SECOND_ADDRESS_LATITUDE;
 import static com.harryWorld.navigationGPS.map.constant.DetectedActivityReceiver.RECEIVER_ACTION;
-import static com.harryWorld.navigationGPS.weather.constant.Constant.ADS_ID;
+import static com.harryWorld.navigationGPS.map.utils.direction.ConstantDIrection.CYCLING;
+import static com.harryWorld.navigationGPS.map.utils.direction.ConstantDIrection.DRIVING;
+import static com.harryWorld.navigationGPS.map.utils.direction.ConstantDIrection.WALKING;
 
 public class MapsActivity extends FragmentActivity implements
         OnMapReadyCallback,
@@ -176,6 +178,8 @@ public class MapsActivity extends FragmentActivity implements
     private boolean current = false;
     private boolean daily;
     private boolean hourly;
+
+    Polyline polyline = null;
     private boolean showAds;
     Climate climate = new Climate();
     List<Daily> dailyListNow = new ArrayList<>();
@@ -185,6 +189,9 @@ public class MapsActivity extends FragmentActivity implements
     List<LatLng> updateList = new ArrayList<>();
     List<String> updateDistance = new ArrayList<>();
     List<String> updateDuration = new ArrayList<>();
+    List<String> stepsInstruction = new ArrayList<>();
+    List<String> stepsNames = new ArrayList<>();
+    List<Integer> stepsWayPoint = new ArrayList<>();
     List<List<LatLng>> trafficRoute = new ArrayList<>();
     List<Integer> mainDuration = new ArrayList<>();
     List<Integer> duration_in_traffic = new ArrayList<>();
@@ -229,6 +236,9 @@ public class MapsActivity extends FragmentActivity implements
     int burd = 0;
     List<String> instructions = new ArrayList<>();
     List<String> shortInstructions = new ArrayList<>();
+    List<Double> stepListDuraiton = new ArrayList<>();
+    List<Double> stepListDistance = new ArrayList<>();
+    private double totalDistance, totalDuration;
     List<List<HashMap<String, String>>> routeList = new ArrayList<>();
     TextToSpeech tts;
     String routeMode = "no idea";
@@ -310,10 +320,16 @@ public class MapsActivity extends FragmentActivity implements
         //properties();
         activateTransition();
         processActivityRecognition();
-        getCoordinates();
+        //getCoordinates();
         setPlaces();
         deleteCurrent();
         setLoading();
+        getDirectionsLive();
+        observeStepsInstruction();
+        observeDistance();
+        observeDuration();
+        observeStepsWayPoint();
+        observeStepsName();
         AdRequest adRequest = new AdRequest.Builder().build();
 
         RewardedAd.load(this, "ca-app-pub-2650278620916037/6279356363",
@@ -369,6 +385,104 @@ public class MapsActivity extends FragmentActivity implements
 //        alertDialog.show();
 //
 //    }
+    private void drawRoute(String mode, String start, String end){
+        volleyViewModel.connector.loading.setValue(true);
+        coordinateViewModel.getOpenDirections(mode, start, end);
+    }
+    private void getDirectionsLive(){
+//        if (volleyViewModel.connector.liveOptions == null) {
+//            volleyViewModel.connector.loading.setValue(true);
+            coordinateViewModel.getDirectionsLive().observe(this, new Observer<Directions>() {
+                @Override
+                public void onChanged(Directions directions) {
+                    volleyViewModel.connector.loading.setValue(false);
+                    if (directions != null) {
+                      //  volleyViewModel.getMapSate().setValue(VolleyViewModel.mapState.START);
+                        List<Double> latitude = new ArrayList<>();
+                        List<Double> longitude = new ArrayList<>();
+                        List<List<Double>> coordinates = directions.getFeatures().get(0).getGeometry().getCoordinates();
+                        Segments segments = directions.getFeatures().get(0).getProperties().getSegments().get(0);
+                        List<Steps> steps = segments.getSteps();
+
+                        for (int i = 0; i < coordinates.size(); i++) {
+                            latitude.add(coordinates.get(i).get(1));
+                            longitude.add(coordinates.get(i).get(0));
+                        }
+                        List<LatLng> latLng = new ArrayList<>();
+                        for (int j = 0; j < latitude.size(); j++) {
+
+                            latLng.add(new LatLng(latitude.get(j), longitude.get(j)));
+                        }
+                        PolylineOptions polylineOptions = new PolylineOptions();
+                        polylineOptions.addAll(latLng);
+                        volleyViewModel.connector.liveOptions.setValue(polylineOptions);
+
+                        List<String> stepsDirection = new ArrayList<>();
+                        List<String> stepsName = new ArrayList<>();
+                        List<Double> stepsDistance = new ArrayList<>();
+                        List<Double> stepsDuration = new ArrayList<>();
+                        List<Integer> stepsWayPoints = new ArrayList<>();
+
+
+                        for (int k = 0; k < steps.size(); k++) {
+                            stepsDirection.add(steps.get(k).getInstruction());
+                            stepsName.add(steps.get(k).getName());
+                            stepsDistance.add(steps.get(k).getDistance());
+                            stepsDuration.add(steps.get(k).getDuration());
+                            stepsWayPoints.add(steps.get(k).getWay_points().get(0));
+                        }
+                        stepListDuraiton.addAll(stepsDuration);
+                        stepListDistance.addAll(stepsDistance);
+                        totalDistance = segments.getDistance();
+                        totalDuration = segments.getDuration();
+                        volleyViewModel.setLiveStepsDirection(stepsDirection);
+                        volleyViewModel.setLiveDistace(convertingDistance(segments.getDistance()));
+                        volleyViewModel.setLiveDuration(convertingTime(segments.getDuration()));
+                        volleyViewModel.setLiveStepsName(stepsName);
+                        volleyViewModel.setLiveWayPoint(stepsWayPoints);
+
+                    }
+                    else {
+                        volleyViewModel.setLiveStepsDirection(null);
+                        volleyViewModel.setLiveDistace(null);
+                        volleyViewModel.setLiveDuration(null);
+                        volleyViewModel.setLiveStepsName(null);
+                        volleyViewModel.setLiveWayPoint(null);
+                        volleyViewModel.connector.liveOptions.setValue(null);
+                        Log.d(TAG, "onChanged: there was an error with open directions");
+                    }
+                }
+            });
+   //     }
+    }
+
+    private String convertingTime(double seconds){
+        double divide = seconds/2;
+        seconds += divide;
+        double hour1 = seconds/3600;
+        double roundHour = Math.floor(hour1);
+        double minute = hour1 - roundHour;
+        minute *= 60;
+        int minute1 = (int) minute;
+        int hour = (int) roundHour;
+        if (roundHour > 1 && minute1 > 1) {
+            return hour + " " + getString(R.string.hours)+" "+minute1+" "+getString(R.string.minutes);
+        }
+        else if (hour > 1 && minute1 <= 1) {
+            return hour + " " + getString(R.string.hours)+" "+minute1+" "+getString(R.string.minute);
+        }
+        else if (hour == 1 && minute1 > 1) {
+            return hour + " " + getString(R.string.hour)+" "+minute1+" "+getString(R.string.minutes);
+        }
+        else if (hour == 0) {
+            return minute1+" "+getString(R.string.minutes);
+        }
+            return hour + " " + getString(R.string.hour)+" "+minute1+" "+getString(R.string.minute);
+    }
+    private String convertingDistance(double duration){
+        int km = (int) (duration/1000);
+        return  "(" +km+ "Km"+")";
+    }
     private void insertingDefault() {
         Log.d(TAG, "insertingDefault: list was null");
         Places places = new Places();
@@ -599,7 +713,9 @@ public class MapsActivity extends FragmentActivity implements
             LatLng destination = new LatLng(schedule.getFinalLatitudeValue(), schedule.getFinalLongitudeValue());
             Log.d(TAG, "alMightyFunction: what is happeniing");
             setWeatherCurrent(origin.latitude, origin.longitude);
-            volleyViewModel.drawRoute(origin, destination,"driving");
+            String start = origin.longitude+","+origin.latitude;
+            String end = destination.longitude+","+destination.latitude;
+            drawRoute(DRIVING, start, end);
             if (ContextCompat.checkSelfPermission(MapsActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 mMap.setMyLocationEnabled(true);
             }
@@ -1077,6 +1193,7 @@ public class MapsActivity extends FragmentActivity implements
 //
 //    }
     private void setWeatherCurrent(double latitude, double longitude){
+        volleyViewModel.connector.loading.setValue(true);
         mainViewModel.gettingClimateInfo(latitude+","+longitude).observe(this, new Observer<Climate>() {
             @Override
             public void onChanged(Climate climate) {
@@ -1244,58 +1361,61 @@ public class MapsActivity extends FragmentActivity implements
             }
         });
     }
-    private void getCoordinates() {
-        final String name1 = "mumbai+india";
-        coordinateViewModel.getCoordinates(name1).observe(this, new Observer<Resource<List<Coordinate>>>() {
-            @Override
-            public void onChanged(Resource<List<Coordinate>> listResource) {
-                if (listResource != null) {
-                    switch (listResource.status) {
-                        case ERROR: {
-                            Log.d(TAG, "onChanged: there was an error gettimg coordinates " + listResource.message);
-                        }
-                        break;
-                        case SUCCESS: {
-
-
-                            // code ll be done here
-                            if (listResource.data != null) {
-                                Log.d(TAG, "onChanged: there was success gettimg coordinates " + listResource.data);
-
-                                Log.d(TAG, "onChanged: there was success gettimg coordinates " + listResource.data.size());
-                                //   if (listResource.data.size() > 7){
-                                Log.d(TAG, "onChanged: there was success gettimg coordinates " + Arrays.toString(listResource.data.get(0).getGeojson().getCoordinates()));
-                                PolylineOptions polylineOptions = new PolylineOptions().
-                                        geodesic(true).
-                                        color(Color.BLUE).
-                                        width(5);
-
+//    private void getCoordinates() {
+//        final String name1 = "mumbai+india";
+//        coordinateViewModel.getCoordinates(name1).observe(this, new Observer<Resource<List<List<Coordinate>>>>() {
+//            @Override
+//            public void onChanged(Resource<List<List<Coordinate>>> listResource) {
+//                if (listResource != null) {
+//                    switch (listResource.status) {
+//                        case ERROR: {
+//                            Log.d(TAG, "onChanged: there was an error gettimg coordinates " + listResource.message);
+//                        }
+//                        break;
+//                        case SUCCESS: {
+//
+//
+//                            // code ll be done here
+//                            if (listResource.data != null) {
+//                                List<List<Double>> coordinates = new ArrayList<>();
+//                                Log.d(TAG, "onChanged: there was success gettimg coordinates " + listResource.data);
+//
+//                                Log.d(TAG, "onChanged: there was success gettimg coordinates " + listResource.data.size());
+//                                //   if (listResource.data.size() > 7){
+//                                Log.d(TAG, "onChanged: there was success gettimg coordinates " + listResource.data.get(0).get(0).getGeojson().get(0).getCoordinates().size());
+//                                PolylineOptions polylineOptions = new PolylineOptions().
+//                                        geodesic(true).
+//                                        color(Color.BLUE).
+//                                        width(5);
+//                                coordinates = listResource.data.get(0).get(0).getGeojson().get(0).getCoordinates();
+//                                if(coordinates.size() > 2){
 //                                for (int i = 0; i < listResource.data.size(); i++) {
-//                                    double lat = listResource.data.get(i).getGeojson().getCoordinates().get(i).latitude;
-//                                    double lon = listResource.data.get(i).getGeojson().getCoordinates().get(i).longitude;
+//                                    double lat = coordinates.get(i).get(0);
+//                                    double lon = coordinates.get(i).get(1);
 //
 //                                    polylineOptions.add(new LatLng(lat, lon));
 //
 //                                    mMap.addPolyline(polylineOptions);
 //                                }
-
-                                //  }
-//                                else {
 //
-//                                    LatLng location = new LatLng(latitude, longitude);
-//                                    mMap.addMarker(new MarkerOptions().position(location).title("mumbai")
-//                                            .draggable(true));
-//                                    mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
-//                                }
-                            } else {
-                                Log.d(TAG, "onChanged: geoJson was null");
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    }
+//                                  }
+////                                else {
+////
+////                                    LatLng location = new LatLng(latitude, longitude);
+////                                    mMap.addMarker(new MarkerOptions().position(location).title("mumbai")
+////                                            .draggable(true));
+////                                    mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+////                                }
+//                            }
+//                            else {
+//                                Log.d(TAG, "onChanged: geoJson was null");
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        });
+//    }
 
     private void activateTransition() {
         List<ActivityTransition> transitionsList = new ArrayList<>();
@@ -1441,7 +1561,9 @@ public class MapsActivity extends FragmentActivity implements
 
                                             ori = currentLocation;
                                             dest = destination;
-                                            volleyViewModel.drawRoute(ori, dest, "driving");
+                                            String start = ori.longitude+","+ori.latitude;
+                                            String end = dest.longitude+","+dest.latitude;
+                                            drawRoute(DRIVING, start, end);
                                             subLocal.setText(places.getCityName());
 
                                         }
@@ -1454,7 +1576,9 @@ public class MapsActivity extends FragmentActivity implements
 
                                             ori = currentLocation;
                                             dest = destination;
-                                            volleyViewModel.drawRoute(ori, dest, "driving");
+                                            String start = ori.longitude+","+ori.latitude;
+                                            String end = dest.longitude+","+dest.latitude;
+                                            drawRoute(DRIVING, start, end);
                                             subLocal.setText(places.getCityName());
                                         }
                                     }
@@ -1465,7 +1589,9 @@ public class MapsActivity extends FragmentActivity implements
 
                                             ori = new LatLng(schedule.getFromLatitudeValue(), schedule.getFromLongitudeValue());
                                             dest = destination;
-                                                volleyViewModel.drawRoute(currentLocation, destination,"driving");
+                                            String start = ori.longitude+","+ori.latitude;
+                                            String end = dest.longitude+","+dest.latitude;
+                                            drawRoute(DRIVING, start, end);
                                             }
                                         }
                                     else {
@@ -1704,8 +1830,7 @@ public class MapsActivity extends FragmentActivity implements
         observePolyline();
         alMightyFunction();
         getLocation();
-        observeCategories();
-        observeMatrix();
+
         observeMapState();
         mMap.getUiSettings().setMapToolbarEnabled(false);
         mMap.setPadding(0, 150, 0, 0);
@@ -1887,9 +2012,9 @@ public class MapsActivity extends FragmentActivity implements
             }
             break;
             case R.id.nav_categories: {
-                Intent intent = new Intent(MapsActivity.this, CategoriesActivity.class);
-                intent.putExtra(NAVIGATION_CATEGORIES, "");
-                startActivity(intent);
+//                Intent intent = new Intent(MapsActivity.this, CategoriesActivity.class);
+//                intent.putExtra(NAVIGATION_CATEGORIES, "");
+//                startActivity(intent);
             }
             break;
             case R.id.navi_speaker_on: {
@@ -2084,26 +2209,34 @@ public class MapsActivity extends FragmentActivity implements
                         if (schedule != null) {
                             LatLng origin = new LatLng(schedule.getFromLatitudeValue(), schedule.getFromLongitudeValue());
                             LatLng dest = new LatLng(schedule.getFinalLatitudeValue(), schedule.getFinalLongitudeValue());
-                            volleyViewModel.drawRoute(origin, dest, "driving");
+                            String start = origin.longitude+","+origin.latitude;
+                            String end = dest.longitude+","+dest.latitude;
+                            drawRoute(DRIVING, start, end);
                         }
                     }
                     else if (getIntent().hasExtra(CHECK_RESULTS)) {
                         places = getIntent().getParcelableExtra(CHECK_RESULTS);
                         LatLng origin = new LatLng(latSource, longSource);
                         LatLng dest = new LatLng(places.getLatitude(), places.getLongitude());
-                        volleyViewModel.drawRoute(origin, dest, "driving");
+                        String start = origin.longitude+","+origin.latitude;
+                        String end = dest.longitude+","+dest.latitude;
+                        drawRoute(DRIVING, start, end);
                     }
                     else if (getIntent().hasExtra(MAIN_SEARCH_LATITUDE)) {
                         places = getIntent().getParcelableExtra(MAIN_SEARCH_LATITUDE);
                         LatLng origin = new LatLng(latSource, longSource);
                         LatLng dest = new LatLng(places.getLatitude(), places.getLongitude());
-                        volleyViewModel.drawRoute(origin, dest, "driving");
+                        String start = origin.longitude+","+origin.latitude;
+                        String end = dest.longitude+","+dest.latitude;
+                        drawRoute(DRIVING, start, end);
                     }
                     else if (getIntent().hasExtra(MAP_NAVIGATION_SEARCH)) {
                         LatLng origin = new LatLng(latSource, longSource);
                         if (currentMaker != null) {
                             LatLng dest = new LatLng(currentMaker.getPosition().latitude, currentMaker.getPosition().longitude);
-                            volleyViewModel.drawRoute(origin, dest, "driving");
+                            String start = origin.longitude+","+origin.latitude;
+                            String end = dest.longitude+","+dest.latitude;
+                            drawRoute(DRIVING, start, end);
                         }
                     }
                 }
@@ -2128,26 +2261,34 @@ public class MapsActivity extends FragmentActivity implements
                         if (schedule != null) {
                             LatLng origin = new LatLng(schedule.getFromLatitudeValue(), schedule.getFromLongitudeValue());
                             LatLng dest = new LatLng(schedule.getFinalLatitudeValue(), schedule.getFinalLongitudeValue());
-                            volleyViewModel.drawRoute(origin, dest, "driving");
+                            String start = origin.longitude+","+origin.latitude;
+                            String end = dest.longitude+","+dest.latitude;
+                            drawRoute(DRIVING, start, end);
                         }
                     }
                     else if (getIntent().hasExtra(CHECK_RESULTS)) {
                         places = getIntent().getParcelableExtra(CHECK_RESULTS);
                         LatLng origin = new LatLng(latSource, longSource);
                         LatLng dest = new LatLng(places.getLatitude(), places.getLongitude());
-                        volleyViewModel.drawRoute(origin, dest, "driving");
+                        String start = origin.longitude+","+origin.latitude;
+                        String end = dest.longitude+","+dest.latitude;
+                        drawRoute(DRIVING, start, end);
                     }
                     else if (getIntent().hasExtra(MAIN_SEARCH_LATITUDE)) {
                         places = getIntent().getParcelableExtra(MAIN_SEARCH_LATITUDE);
                         LatLng origin = new LatLng(latSource, longSource);
                         LatLng dest = new LatLng(places.getLatitude(), places.getLongitude());
-                        volleyViewModel.drawRoute(origin, dest, "driving");
+                        String start = origin.longitude+","+origin.latitude;
+                        String end = dest.longitude+","+dest.latitude;
+                        drawRoute(DRIVING, start, end);
                     }
                     else if (getIntent().hasExtra(MAP_NAVIGATION_SEARCH)) {
                         LatLng origin = new LatLng(latSource, longSource);
                         if (currentMaker != null) {
                             LatLng dest = new LatLng(currentMaker.getPosition().latitude, currentMaker.getPosition().longitude);
-                            volleyViewModel.drawRoute(origin, dest, "driving");
+                            String start = origin.longitude+","+origin.latitude;
+                            String end = dest.longitude+","+dest.latitude;
+                            drawRoute(DRIVING, start, end);
                         }
                     }
                 }
@@ -2171,26 +2312,34 @@ public class MapsActivity extends FragmentActivity implements
                         if (schedule != null) {
                             LatLng origin = new LatLng(schedule.getFromLatitudeValue(), schedule.getFromLongitudeValue());
                             LatLng dest = new LatLng(schedule.getFinalLatitudeValue(), schedule.getFinalLongitudeValue());
-                            volleyViewModel.drawRoute(origin, dest, "bicycling");
+                            String start = origin.longitude+","+origin.latitude;
+                            String end = dest.longitude+","+dest.latitude;
+                            drawRoute(CYCLING, start, end);
                         }
                     }
                     else if (getIntent().hasExtra(CHECK_RESULTS)) {
                         places = getIntent().getParcelableExtra(CHECK_RESULTS);
                         LatLng origin = new LatLng(latSource, longSource);
                         LatLng dest = new LatLng(places.getLatitude(), places.getLongitude());
-                        volleyViewModel.drawRoute(origin, dest, "bicycling");
+                        String start = origin.longitude+","+origin.latitude;
+                        String end = dest.longitude+","+dest.latitude;
+                        drawRoute(CYCLING, start, end);
                     }
                     else if (getIntent().hasExtra(MAIN_SEARCH_LATITUDE)) {
                         places = getIntent().getParcelableExtra(MAIN_SEARCH_LATITUDE);
                         LatLng origin = new LatLng(latSource, longSource);
                         LatLng dest = new LatLng(places.getLatitude(), places.getLongitude());
-                        volleyViewModel.drawRoute(origin, dest, "bicycling");
+                        String start = origin.longitude+","+origin.latitude;
+                        String end = dest.longitude+","+dest.latitude;
+                        drawRoute(DRIVING, start, end);
                     }
                     else if (getIntent().hasExtra(MAP_NAVIGATION_SEARCH)) {
                         LatLng origin = new LatLng(latSource, longSource);
                         if (currentMaker != null) {
                             LatLng dest = new LatLng(currentMaker.getPosition().latitude, currentMaker.getPosition().longitude);
-                            volleyViewModel.drawRoute(origin, dest, "bicycling");
+                            String start = origin.longitude+","+origin.latitude;
+                            String end = dest.longitude+","+dest.latitude;
+                            drawRoute(CYCLING, start, end);
                         }
                     }
 
@@ -2216,26 +2365,34 @@ public class MapsActivity extends FragmentActivity implements
                         if (schedule != null) {
                             LatLng origin = new LatLng(schedule.getFromLatitudeValue(), schedule.getFromLongitudeValue());
                             LatLng dest = new LatLng(schedule.getFinalLatitudeValue(), schedule.getFinalLongitudeValue());
-                            volleyViewModel.drawRoute(origin, dest, "driving");
+                            String start = origin.longitude+","+origin.latitude;
+                            String end = dest.longitude+","+dest.latitude;
+                            drawRoute(DRIVING, start, end);
                         }
                     }
                     else if (getIntent().hasExtra(CHECK_RESULTS)) {
                         places = getIntent().getParcelableExtra(CHECK_RESULTS);
                         LatLng origin = new LatLng(latSource, longSource);
                         LatLng dest = new LatLng(places.getLatitude(), places.getLongitude());
-                        volleyViewModel.drawRoute(origin, dest, "driving");
+                        String start = origin.longitude+","+origin.latitude;
+                        String end = dest.longitude+","+dest.latitude;
+                        drawRoute(DRIVING, start, end);
                     }
                     else if (getIntent().hasExtra(MAIN_SEARCH_LATITUDE)) {
                         places = getIntent().getParcelableExtra(MAIN_SEARCH_LATITUDE);
                         LatLng origin = new LatLng(latSource, longSource);
                         LatLng dest = new LatLng(places.getLatitude(), places.getLongitude());
-                        volleyViewModel.drawRoute(origin, dest, "driving");
+                        String start = origin.longitude+","+origin.latitude;
+                        String end = dest.longitude+","+dest.latitude;
+                        drawRoute(DRIVING, start, end);
                     }
                     else if (getIntent().hasExtra(MAP_NAVIGATION_SEARCH)) {
                         LatLng origin = new LatLng(latSource, longSource);
                         if (currentMaker != null) {
                             LatLng dest = new LatLng(currentMaker.getPosition().latitude, currentMaker.getPosition().longitude);
-                            volleyViewModel.drawRoute(origin, dest, "driving");
+                            String start = origin.longitude+","+origin.latitude;
+                            String end = dest.longitude+","+dest.latitude;
+                            drawRoute(DRIVING, start, end);
                         }
                     }
                 }
@@ -2260,26 +2417,34 @@ public class MapsActivity extends FragmentActivity implements
                         if (schedule != null) {
                             LatLng origin = new LatLng(schedule.getFromLatitudeValue(), schedule.getFromLongitudeValue());
                             LatLng dest = new LatLng(schedule.getFinalLatitudeValue(), schedule.getFinalLongitudeValue());
-                            volleyViewModel.drawRoute(origin, dest, "walking");
+                            String start = origin.longitude+","+origin.latitude;
+                            String end = dest.longitude+","+dest.latitude;
+                            drawRoute(WALKING, start, end);
                         }
                     }
                     else if (getIntent().hasExtra(CHECK_RESULTS)) {
                         places = getIntent().getParcelableExtra(CHECK_RESULTS);
                         LatLng origin = new LatLng(latSource, longSource);
                         LatLng dest = new LatLng(places.getLatitude(), places.getLongitude());
-                        volleyViewModel.drawRoute(origin, dest, "walking");
+                        String start = origin.longitude+","+origin.latitude;
+                        String end = dest.longitude+","+dest.latitude;
+                        drawRoute(WALKING, start, end);
                     }
                     else if (getIntent().hasExtra(MAIN_SEARCH_LATITUDE)) {
                         places = getIntent().getParcelableExtra(MAIN_SEARCH_LATITUDE);
                         LatLng origin = new LatLng(latSource, longSource);
                         LatLng dest = new LatLng(places.getLatitude(), places.getLongitude());
-                        volleyViewModel.drawRoute(origin, dest, "walking");
+                        String start = origin.longitude+","+origin.latitude;
+                        String end = dest.longitude+","+dest.latitude;
+                        drawRoute(WALKING, start, end);
                     }
                     else if (getIntent().hasExtra(MAP_NAVIGATION_SEARCH)) {
                         LatLng origin = new LatLng(latSource, longSource);
                         if (currentMaker != null) {
                             LatLng dest = new LatLng(currentMaker.getPosition().latitude, currentMaker.getPosition().longitude);
-                            volleyViewModel.drawRoute(origin, dest, "walking");
+                            String start = origin.longitude+","+origin.latitude;
+                            String end = dest.longitude+","+dest.latitude;
+                            drawRoute(WALKING, start, end);
                         }
                     }
                 }
@@ -2293,6 +2458,9 @@ public class MapsActivity extends FragmentActivity implements
             break;
 
             case R.id.layout_start: {
+                if (relativeWeather.getVisibility() == View.GONE){
+                    setWeatherCurrent(latSource,longSource);
+                }
                 volleyViewModel.connector.loading.setValue(true);
                 if (getIntent().hasExtra(MAP_NAVIGATION_SEARCH)) {
                     if (points.size() == 0) {
@@ -2726,6 +2894,8 @@ public class MapsActivity extends FragmentActivity implements
 
             if(!categoriesMarker.get(0).isVisible()){
                 volleyViewModel.connector.liveOptions.setValue(null);
+                coordinateViewModel.weatherRepository.liveDirections.setValue(null);
+                polyline.remove();
                 super.onBackPressed();
                 points.clear();
                 updateList.clear();
@@ -2752,9 +2922,19 @@ public class MapsActivity extends FragmentActivity implements
                 if (places.getLatitude() == 0.0 && places.getLongitude() == 0.0) {
                     volleyViewModel.connector.liveOptions.setValue(null);
                     points.clear();
-                    updateList.clear();
+                    stepsWayPoint.clear();
+                    stepsNames.clear();
+                    stepsInstruction.clear();
                     updateDuration.clear();
                     updateDistance.clear();
+                    volleyViewModel.setLiveDuration(null);
+                    volleyViewModel.setLiveDistace(null);
+                    volleyViewModel.setLiveStepsDirection(null);
+                    volleyViewModel.setLiveStepsName(null);
+                    volleyViewModel.setLiveWayPoint(null);
+                    polyline.remove();
+
+                    coordinateViewModel.weatherRepository.liveDirections.setValue(null);
                     super.onBackPressed();
                 }
                 else {
@@ -2773,6 +2953,13 @@ public class MapsActivity extends FragmentActivity implements
                     updateList.clear();
                     updateDuration.clear();
                     updateDistance.clear();
+                volleyViewModel.setLiveDuration(null);
+                volleyViewModel.setLiveDistace(null);
+                volleyViewModel.setLiveStepsDirection(null);
+                volleyViewModel.setLiveStepsName(null);
+                volleyViewModel.setLiveWayPoint(null);
+                polyline.remove();
+                coordinateViewModel.weatherRepository.liveDirections.setValue(null);
                     super.onBackPressed();
             }
         }
@@ -2839,6 +3026,13 @@ public class MapsActivity extends FragmentActivity implements
                 updateList.clear();
                 updateDuration.clear();
                 updateDistance.clear();
+                volleyViewModel.setLiveDuration(null);
+                volleyViewModel.setLiveDistace(null);
+                volleyViewModel.setLiveStepsDirection(null);
+                polyline.remove();
+                volleyViewModel.setLiveStepsName(null);
+                volleyViewModel.setLiveWayPoint(null);
+                coordinateViewModel.weatherRepository.liveDirections.setValue(null);
                 super.onBackPressed();
             }
         }
@@ -2848,10 +3042,16 @@ public class MapsActivity extends FragmentActivity implements
             updateList.clear();
             updateDuration.clear();
             updateDistance.clear();
+            volleyViewModel.setLiveDuration(null);
+            volleyViewModel.setLiveDistace(null);
+            volleyViewModel.setLiveStepsDirection(null);
+            volleyViewModel.setLiveStepsName(null);
+            volleyViewModel.setLiveWayPoint(null);
+            polyline.remove();
             if (showAds) {
-                loadAd();
+               // loadAd();
             }
-
+            coordinateViewModel.weatherRepository.liveDirections.setValue(null);
             super.onBackPressed();
         }
     }
@@ -2877,8 +3077,8 @@ public class MapsActivity extends FragmentActivity implements
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.category:
-                Intent mapIntent = new Intent(this, CategoriesActivity.class);
-                startActivity(mapIntent);
+//                Intent mapIntent = new Intent(this, CategoriesActivity.class);
+//                startActivity(mapIntent);
                 break;
             case R.id.scheduled:
                 Intent intent = new Intent(this, ScheduleUI.class);
@@ -2986,8 +3186,8 @@ public class MapsActivity extends FragmentActivity implements
                 Log.d(TAG, "onMapLoaded: this was called");
                 isZoom = false;
                 LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                builder.include(volleyViewModel.mainCoordinates().get(0));
-                builder.include(volleyViewModel.mainCoordinates().get(volleyViewModel.mainCoordinates().size()-1));
+                builder.include(points.get(0));
+                builder.include(points.get(points.size()-1));
                 LatLngBounds bounds = builder.build();
                 mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100), 2000, null);
                 if (ContextCompat.checkSelfPermission(MapsActivity.this,
@@ -3016,20 +3216,61 @@ public class MapsActivity extends FragmentActivity implements
 
     }
 
-    private void observeCategories(){
-        bigLoading.setVisibility(View.GONE);
-        volleyViewModel.getLiveCategories().observe(this, new Observer<List<LatLng>>() {
+    private void observeStepsInstruction(){
+        volleyViewModel.getLiveStepsDirection().observe(this, new Observer<List<String>>() {
             @Override
-            public void onChanged(List<LatLng> latLngs) {
-                if (latLngs != null && latLngs.size() > 0 ){
-                    addMarkers(latLngs);
-                }
-                else{
-                    bigLoading.setVisibility(View.GONE);
+            public void onChanged(List<String> strings) {
+                if (strings != null && strings.size() >0){
+                    if (stepsInstruction.size() >0){
+                        stepsInstruction.clear();
+                    }
+                    stepsInstruction.addAll(strings);
                 }
             }
         });
     }
+    private void observeDistance(){
+        volleyViewModel.getLiveDistace().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                distanceTaken.setText(s);
+            }
+        });
+    }
+    private void observeDuration(){
+        volleyViewModel.getLiveDuration().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                timeTaken.setText(s);
+            }
+        });
+    }
+    private void observeStepsWayPoint(){
+        volleyViewModel.getLiveWayPoint().observe(this, new Observer<List<Integer>>() {
+            @Override
+            public void onChanged(List<Integer> integers) {
+                if (integers != null && integers.size() >0){
+                    if (stepsWayPoint.size() > 0){
+                        stepsWayPoint.clear();
+                    }
+                    stepsWayPoint.addAll(integers);
+                }
+            }
+        });
+    }
+    private void observeStepsName(){
+        volleyViewModel.getLiveStepsName().observe(this, new Observer<List<String>>() {
+            @Override
+            public void onChanged(List<String> strings) {
+                if (strings != null && strings.size() >0){
+                    if (stepsNames.size()> 0){
+                        stepsNames.clear();
+                    }
+                }
+            }
+        });
+    }
+
     private void removeAllMarkers() {
         for (Marker mLocationMarker: categoriesMarker) {
             mLocationMarker.remove();
@@ -3093,6 +3334,11 @@ public class MapsActivity extends FragmentActivity implements
                     }
                     points = polylineOptions.getPoints();
                     options = new PolylineOptions();
+                    options.getPoints().clear();
+                    if (polyline != null){
+                        polyline.remove();
+                    }
+                    volleyViewModel.getMapSate().setValue(VolleyViewModel.mapState.START);
                     for (int i = 0; i < points.size(); i++){
                         options.add(points.get(i));
                     }
@@ -3102,44 +3348,9 @@ public class MapsActivity extends FragmentActivity implements
 
                     options.width(14.0f);
                     settingImage();
-                    mMap.addPolyline(options);
+                    polyline =mMap.addPolyline(options);
                     zoomOut();
-                    addList();
                     bottomLayout.setVisibility(View.VISIBLE);
-                    if (updateDistance.size() == 0) {
-                        if (points.size() > 0) {
-                            Log.d(TAG, "onChanged: enteeeeeeerertrerert");
-                            if (points.size() > 25) {
-                                int average = points.size()/25;
-                                Log.d(TAG, "onChanged: lets see average "+average);
-                                updateList.clear();
-                                for (int j = 0; j < 25; j++) {
-                                    if (j*25 <= points.size()) {
-                                        updateList.add(points.get(j * 25));
-                                    }
-                                    else{
-//                                        int newJ = j*25;
-//                                        int reminder = points.size() -newJ;
-                                        updateList.add(points.get(points.size()-1));
-                                    }
-                                }
-                                Log.d(TAG, "onChanged: updatesize "+updateList.size());
-                            } else {
-                                updateList.clear();
-                                updateList.addAll(points);
-                            }
-                            String origin = PolyUtil.encode(updateList);
-                            String destination = points.get(points.size()-1).latitude+","+points.get(points.size()-1).longitude;
-                            volleyViewModel.getMatrix(origin, destination);
-                            volleyViewModel.getMapSate().setValue(VolleyViewModel.mapState.START);
-
-                        }
-                        Log.d(TAG, "onChanged: updatesize "+updateList.size());
-                    }
-                    else{
-                        Log.d(TAG, "onChanged: updatesize "+updateList.size());
-
-                    }
 
                 }
                 else{
@@ -3148,27 +3359,7 @@ public class MapsActivity extends FragmentActivity implements
             }
         });
     }
-    private void observeMatrix(){
-        volleyViewModel.getLiveMatrixDistance().observe(this, new Observer<List<String>>() {
-            @Override
-            public void onChanged(List<String> strings) {
-                volleyViewModel.connector.loading.setValue(false);
-               // bigLoading.setVisibility(View.GONE);
-                if (strings != null && strings.size() > 0){
-                    updateDistance.addAll(strings);
-                    if (volleyViewModel.getMatrixDuration() != null) {
-                        updateDuration.addAll(volleyViewModel.getMatrixDuration());
-                      //  Toast.makeText(MapsActivity.this,"this is the distance and time "+updateDuration.get(10)+"(" + updateDistance.get(10) + ")",Toast.LENGTH_SHORT).show();
 
-                    }
-                    else{
-                        Log.d(TAG, "onChanged: distance and time was null");
-                      //  Toast.makeText(MapsActivity.this,"distance and time was null ",Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        });
-    }
     private void observeMapState(){
         volleyViewModel.getMapSate().observe(this, new Observer<VolleyViewModel.mapState>() {
             @Override
@@ -3253,39 +3444,10 @@ public class MapsActivity extends FragmentActivity implements
             }
         });
     }
-    private void addList(){
-        timeTaken.setText(volleyViewModel.getShortInstructions().get(1));
-        distanceTaken.setText("("+volleyViewModel.getShortInstructions().get(0)+")");
-
-        if (start.getText().toString().trim().equals(R.string.navigate)){
-            start.setText(R.string.start);
-        }
-       // bigLoading.setVisibility(View.GONE);
-        bottomLayout.setVisibility(View.VISIBLE);
-        if (instructions.size() > 0){
-            instructions.clear();
-        }
-        if (shortInstructions.size() > 0) {
-            shortInstructions.clear();
-        }
-        instructions.addAll(volleyViewModel.getInstructions());
-        shortInstructions.addAll(volleyViewModel.getShortInstructions());
-
-        if (coordinatesList.size() > 0){
-            coordinatesList.clear();
-        }
-        coordinatesList.addAll(volleyViewModel.stepsCoordinates());
-        if (categoriesCord.size() > 0){
-            categoriesCord.clear();
-        }
-        if (volleyViewModel.categoriesCoordinates().size()> 0 ) {
-            categoriesCord.addAll(volleyViewModel.categoriesCoordinates());
-        }
-    }
     private void insertCurrent(Weather weather){
         currentNow.setId(1);
         currentViewModel.insertCurrent(weather,currentNow).observe(this, new Observer<Resource<Integer>>() {
-            @Override
+           @Override
             public void onChanged(Resource<Integer> integerResource) {
                 if (integerResource != null){
                     if (integerResource.status == Resource.Status.ERROR){
@@ -3370,15 +3532,14 @@ public class MapsActivity extends FragmentActivity implements
             public void onLocationResult(LocationResult locationResult) {
                 if (locationResult != null) {
                     if (locationResult == null) {
-                     //   Log.d(TAG, "onLocationResult: location update was null");
                         return;
                     }
-                    //Showing the latitude, longitude and accuracy on the home screen.
                     for (Location location : locationResult.getLocations()) {
-                     //   Log.d(TAG, "onLocationResult: update " + location.getLatitude());
                         latSource = location.getLatitude();
                         longSource = location.getLongitude();
-                        if (volleyViewModel.getMapSate().getValue() != null && volleyViewModel.getMapSate().getValue() == VolleyViewModel.mapState.RECENTER){
+
+                        if (volleyViewModel.getMapSate().getValue() != null &&
+                                volleyViewModel.getMapSate().getValue() == VolleyViewModel.mapState.RECENTER){
                             float zoom = mMap.getCameraPosition().zoom;
                             if (!(latSource ==0.0 && longSource == 0.0)){
                             new CameraPosition(new LatLng(latSource, longSource), zoom, 0.0f, 0.0f);
@@ -3390,136 +3551,62 @@ public class MapsActivity extends FragmentActivity implements
                                 new CameraPosition(new LatLng(latSource, longSource), zoom, 0.0f, 0.0f);
                             }
                            // mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latSource, longSource), 16f));
-                        } else {
-                            if (updateDistance.size() > 0) {
-                                int go = 0;
-                                for (int i = go; i < updateList.size(); i++) {
+                        }
+                        else {
+                            if (stepsInstruction.size() > 0) {
+                                Location source = new Location("");
+                                Location destination = new Location("");
+                                Log.d(TAG, "onLocationResult: checking steps  size "+stepsWayPoint.size());
+                                for (int i = 0; i < stepsWayPoint.size(); i++) {
+                                    if (points.size() >0) {
+                                        source.setLatitude(latSource);
+                                        source.setLongitude(longSource);
+                                        destination.setLatitude(points.get(stepsWayPoint.get(i)).latitude);
+                                        destination.setLongitude(points.get(stepsWayPoint.get(i)).longitude);
 
-                                    LatLng path = updateList.get(i);
-                                    Location source = new Location("");
-                                    source.setLatitude(latSource);
-                                    source.setLongitude(longSource);
-                                    Location destination = new Location("");
-                                    destination.setLongitude(path.longitude);
-                                    destination.setLatitude(path.latitude);
+                                        float interval = 5.0f;
+                                        float distance = source.distanceTo(destination);
+                                        if (interval > distance) {
 
-                                    float interval = 10.0f;
-                                    float distance = source.distanceTo(destination);
-//                            String text= shortInstructions.get(i);
-//
-//                            Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), text, Snackbar.LENGTH_LONG);
-//                            snackbar.show();
-                                    if (interval > distance) {
-                                        go++;
-                                        distanceTaken.setText("(" + updateDistance.get(i) + ")");
-                                        timeTaken.setText(updateDuration.get(i));
-                                        String coordinates = updateList.get(i).latitude + "," + updateList.get(i).longitude;
-                                        setReverseGeocode(coordinates, new Schedule());
+                                            setWeatherCurrent(latSource, longSource);
+                                            if (i != 0) {
+                                                double cumulativeDistance = 0.0;
+                                                double cumulativeDuration = 0.0;
+                                                for (int h = 1; h < i; h++) {
+                                                    cumulativeDistance += stepListDistance.get(h);
+                                                    cumulativeDuration += stepListDuraiton.get(h);
 
-                                        if (updateList.get(i) == updateList.get(updateList.size()-1) ||
-                                                updateList.get(i) == updateList.get(updateList.size()-2) ){
-                                            current = true;
-                                            setWeatherCurrent(latSource,longSource);
-                                            if (points.size() > 0) {
-                                                List<LatLng> newPoints = new ArrayList<>();
-                                                boolean again = true;
-                                                int k = 0;
-                                                while (again){
-                                                    if (updateList.get(i) == points.get(k)){
-                                                        again = false;
-                                                        for (int l = 0; l<points.size()-k;l++){
-                                                            newPoints.add(points.get(k+l));
-                                                        }
-                                                    }
-                                                    k++;
                                                 }
-                                                if (newPoints.size() > 25) {
-                                                    int average = newPoints.size()/25;
-                                                    Log.d(TAG, "onChanged: lets see average "+average);
-                                                    updateList.clear();
-                                                    for (int j = 0; j < 25; j++) {
-                                                        updateList.add(newPoints.get(j * 25));
-                                                    }
-                                                    Log.d(TAG, "onChanged: updatesize "+updateList.size());
-                                                } else {
-                                                    updateList.clear();
-                                                    updateList.addAll(points);
-                                                }
-                                                String origin = PolyUtil.encode(updateList);
-                                                String dest = points.get(points.size()-1).latitude+","+points.get(points.size()-1).longitude;
-                                                volleyViewModel.getMatrix(origin, dest);
+                                                volleyViewModel.setLiveDistace(convertingDistance(totalDistance - cumulativeDistance));
+                                                volleyViewModel.setLiveDuration(convertingTime(totalDuration - cumulativeDuration));
                                             }
-
-                                        }
-
-                                    } else {
-                                        Log.d(TAG, "onLocationResult: no step located");
-                                    }
-                                }
-
-                            }
-                            else{
-                                Log.d(TAG, "onLocationResult: update was null");
-                            }
-                            if (coordinatesList != null && coordinatesList.size() > 0) {
-                                for (int i = burd; i < coordinatesList.size(); i++) {
-
-                                    LatLng path = coordinatesList.get(i);
-                                    Location source = new Location("");
-                                    source.setLatitude(latSource);
-                                    source.setLongitude(longSource);
-                                    Location destination = new Location("");
-                                    destination.setLongitude(path.longitude);
-                                    destination.setLatitude(path.latitude);
-
-                                  //  currentMaker = mMap.addMarker(new MarkerOptions().position(path));
-
-                                    float interval = 5.0f;
-                                    float distance = source.distanceTo(destination);
-                                    float check = distance - interval;
-                                    Log.d(TAG, "onLocationResult: checking difference " + check);
-                                    Log.d(TAG, "onLocationResult: checking distance " + distance);
-                                    Log.d(TAG, "onLocationResult: checking interval " + interval);
-//                            String text= shortInstructions.get(i);
-//
-//                            Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), text, Snackbar.LENGTH_LONG);
-//                            snackbar.show();
-                                    if (interval > distance) {
-                                        burd++;
-//                                if (text!=null) {
-//                                    //Toast.makeText(MapsActivity.this,text , Toast.LENGTH_SHORT).show();
-//
-//                                }
-
-                                        String textFromHtml = Jsoup.parse(instructions.get(i)).text();
-                                        try {
-                                            Toast.makeText(MapsActivity.this, textFromHtml, Toast.LENGTH_SHORT).show();
-                                            //  Toast.makeText(MapsActivity.this, textFromHtml, Toast.LENGTH_SHORT).show();
-                                        }
-                                        catch (Exception e){
-                                            Log.d(TAG, "onLocationResult: toast navigate "+e.toString());
-                                        }
-                                        Log.d(TAG, "onLocationResult: lets check instructions " + textFromHtml);
-                                        if (navSpeakerOn.getVisibility() == View.VISIBLE) {
-                                            tts = new TextToSpeech(MapsActivity.this, new TextToSpeech.OnInitListener() {
-                                                @Override
-                                                public void onInit(int i) {
-                                                    if (i == TextToSpeech.SUCCESS) {
-                                                        int result = tts.setLanguage(Locale.getDefault());
-                                                        if (result == TextToSpeech.LANG_MISSING_DATA ||
-                                                                result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                                                            Log.e("error", "This Language is not supported");
+                                            String textFromHtml = Jsoup.parse(stepsInstruction.get(i)).text();
+                                            try {
+                                                Toast.makeText(MapsActivity.this, textFromHtml, Toast.LENGTH_SHORT).show();
+                                            } catch (Exception e) {
+                                                Log.d(TAG, "onLocationResult: toast navigate " + e.toString());
+                                            }
+                                            if (navSpeakerOn.getVisibility() == View.VISIBLE) {
+                                                tts = new TextToSpeech(MapsActivity.this, new TextToSpeech.OnInitListener() {
+                                                    @Override
+                                                    public void onInit(int i) {
+                                                        if (i == TextToSpeech.SUCCESS) {
+                                                            int result = tts.setLanguage(Locale.getDefault());
+                                                            if (result == TextToSpeech.LANG_MISSING_DATA ||
+                                                                    result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                                                                Log.e("error", "This Language is not supported");
+                                                            } else {
+                                                                tts.speak(textFromHtml, TextToSpeech.QUEUE_FLUSH, null, null);
+                                                            }
                                                         } else {
-                                                            tts.speak(textFromHtml, TextToSpeech.QUEUE_FLUSH, null, null);
-                                                            // Toast.makeText(MapsActivity.this,textFromHtml,Toast.LENGTH_SHORT).show();
+                                                            Log.e("error", "Initilization Failed!");
                                                         }
-                                                    } else {
-                                                        Log.e("error", "Initilization Failed!");
                                                     }
-                                                }
-                                            });
+                                                });
+                                            }
                                         }
-                                    } else {
+                                    }
+                                    else {
                                         Log.d(TAG, "onLocationResult: no step located");
                                     }
                                 }

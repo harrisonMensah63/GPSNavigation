@@ -116,4 +116,8 @@
     <string name="no_route_found">keine Strecke gefunden</string>
     <string name="tomorrow">Morgen</string>
     <string name="please_wait">Warten Sie mal…</string>
+    <string name="hours">Std</string>
+    <string name="hour">Stunde</string>
+    <string name="minutes">Protokoll</string>
+    <string name="minute">minute</string>
 </resources>

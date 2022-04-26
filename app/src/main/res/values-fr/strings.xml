@@ -116,4 +116,8 @@
     <string name="no_route_found">aucun itinéraire trouvé</string>
     <string name="tomorrow">demain</string>
     <string name="please_wait">S\'il vous plaît, attendez…</string>
+    <string name="hours">heures</string>
+    <string name="hour">heure</string>
+    <string name="minutes">minutes</string>
+    <string name="minute">minute</string>
 </resources>

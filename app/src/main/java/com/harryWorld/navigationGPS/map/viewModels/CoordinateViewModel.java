@@ -12,23 +12,31 @@ import androidx.lifecycle.LiveDataReactiveStreams;
 
 import com.harryWorld.navigationGPS.map.repository.CoordinatesRepository;
 import com.harryWorld.navigationGPS.map.utils.Coordinate;
+import com.harryWorld.navigationGPS.map.utils.direction.Directions;
+import com.harryWorld.navigationGPS.weather.repository.WeatherRepository;
 import com.harryWorld.navigationGPS.weather.utils.Resource;
 
 import java.util.List;
+
+import io.reactivex.Flowable;
 
 public class CoordinateViewModel extends AndroidViewModel {
     private CoordinatesRepository repository;
     private String name;
     private boolean slideUp;
+    private Application application;
+    public WeatherRepository weatherRepository;
 
 
     public CoordinateViewModel(@NonNull Application application) {
         super(application);
+        this.application = application;
         repository = CoordinatesRepository.getInstance(application);
+        weatherRepository = WeatherRepository.getWeatherRepository();
     }
 
 
-    public LiveData<Resource<List<Coordinate>>> getCoordinates(String cityName){
+    public LiveData<Resource<List<List<Coordinate>>>> getCoordinates(String cityName){
         return LiveDataReactiveStreams.fromPublisher(
                 repository.getCoordinates(cityName)
         );
@@ -70,11 +78,10 @@ public class CoordinateViewModel extends AndroidViewModel {
         }, 500);
     }
 
-    public boolean isSlideUp() {
-        return slideUp;
+    public void getOpenDirections(String mode, String start, String end){
+                WeatherRepository.getWeatherRepository().getOpenDirections(mode, start, end, application);
     }
-
-    public void setSlideUp(boolean slideUp) {
-        this.slideUp = slideUp;
+    public LiveData<Directions> getDirectionsLive(){
+       return weatherRepository.liveDirections;
     }
 }

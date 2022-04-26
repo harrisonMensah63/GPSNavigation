@@ -32,15 +32,18 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        String[] result = scheduleList.get(position).getFromDestination().split(",", 2);
-        String first = result[0];
+        if (scheduleList.get(position).getFromDestination() != null &&
+                scheduleList.get(position).getFromDestination() != null) {
+            String[] result = scheduleList.get(position).getFromDestination().split(",", 2);
+            String first = result[0];
 
-        String[] results = scheduleList.get(position).getFinalDestination().split(",", 2);
-        String second = results[0];
-        holder.scheduleName.setText(scheduleList.get(position).getName());
-        holder.dayOfWeek.setText(first+" "+"-"+" "+second);
-        holder.date.setText(scheduleList.get(position).getDate());
-        holder.time.setText(scheduleList.get(position).getTime());
+            String[] results = scheduleList.get(position).getFinalDestination().split(",", 2);
+            String second = results[0];
+            holder.scheduleName.setText(scheduleList.get(position).getName());
+            holder.dayOfWeek.setText(first + " " + "-" + " " + second);
+            holder.date.setText(scheduleList.get(position).getDate());
+            holder.time.setText(scheduleList.get(position).getTime());
+        }
     }
 
     @Override

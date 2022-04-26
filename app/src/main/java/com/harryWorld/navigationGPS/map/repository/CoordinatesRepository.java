@@ -34,37 +34,37 @@ public class CoordinatesRepository {
     geocoder = new Geocoder(c);
     }
 
-    public Flowable<Resource<List<Coordinate>>> getCoordinates(String cityName){
+    public Flowable<Resource<List<List<Coordinate>>>> getCoordinates(String cityName){
        return   CoordinateGenerator.getRequest().getCoordinate(cityName,2,"json")
-                 .map(new Function<Resource<List<Coordinate>>,List<Coordinate>>() {
+                 .map(new Function<Resource<List<List<Coordinate>>>,List<List<Coordinate>>>() {
                      @NonNull
                      @Override
-                     public List<Coordinate> apply(@NonNull Resource<List<Coordinate>> listResource) throws Exception {
+                     public List<List<Coordinate>> apply(@NonNull Resource<List<List<Coordinate>>> listResource) throws Exception {
 
                          return listResource.data;
                      }
                  })
-                 .onErrorReturn(new Function<Throwable, List<Coordinate>>() {
+                 .onErrorReturn(new Function<Throwable, List<List<Coordinate>>>() {
                      @NonNull
                      @Override
-                     public List<Coordinate> apply(@NonNull Throwable throwable) throws Exception {
+                     public List<List<Coordinate>> apply(@NonNull Throwable throwable) throws Exception {
                          String name = throwable.getMessage();
-                         List<Coordinate> list = new ArrayList<>();
+                         List<List<Coordinate>> list = new ArrayList<>();
                          if (coordinate != null) {
                             // weather.setCityName(name);
                              coordinate.setErrorName(-1);
                              coordinate.setErrorMessage(name);
-                             list.add(coordinate);
+                             list.get(0).add(coordinate);
                          }
                          return list;
                      }
                  })
-                 .map(new Function<List<Coordinate>, Resource<List<Coordinate>>>() {
+                 .map(new Function<List<List<Coordinate>>, Resource<List<List<Coordinate>>>>() {
                      @NonNull
                      @Override
-                     public Resource<List<Coordinate>> apply(@NonNull List<Coordinate> coordinates) throws Exception {
-                         if (coordinates.get(0).getErrorName() == -1){
-                             return Resource.error(coordinates,coordinates.get(0).getErrorMessage());
+                     public Resource<List<List<Coordinate>>> apply(@NonNull List<List<Coordinate>> coordinates) throws Exception {
+                         if (coordinates.get(0).get(0).getErrorName() == -1){
+                             return Resource.error(coordinates,coordinates.get(0).get(0).getErrorMessage());
                          }
                          else  {
                              return Resource.success(coordinates,null);

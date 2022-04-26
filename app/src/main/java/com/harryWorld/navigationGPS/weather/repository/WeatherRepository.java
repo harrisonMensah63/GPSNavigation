@@ -1,10 +1,20 @@
 package com.harryWorld.navigationGPS.weather.repository;
 
 
+import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
+
+import androidx.lifecycle.MutableLiveData;
+
+import com.harryWorld.navigationGPS.R;
 import com.harryWorld.navigationGPS.map.retrofit.Direction;
 import com.harryWorld.navigationGPS.map.retrofit.GO;
 import com.harryWorld.navigationGPS.map.retrofit.Geocode;
+import com.harryWorld.navigationGPS.map.utils.direction.Directions;
+import com.harryWorld.navigationGPS.map.volley.JSONConnector;
 import com.harryWorld.navigationGPS.weather.api.Climate;
+import com.harryWorld.navigationGPS.weather.request.DirectionGenerator;
 import com.harryWorld.navigationGPS.weather.request.GeocoderGenerator;
 import com.harryWorld.navigationGPS.weather.request.ServiceGenerator;
 import com.harryWorld.navigationGPS.weather.utils.Alert;
@@ -18,24 +28,33 @@ import java.util.concurrent.TimeUnit;
 
 
 import io.reactivex.Flowable;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.harryWorld.navigationGPS.weather.api.ClimateConstant.CLIMATE_API;
 import static com.harryWorld.navigationGPS.weather.constant.Constant.API_KEY;
 import static com.harryWorld.navigationGPS.weather.constant.Constant.GEOCODE_API_KEY;
+import static com.harryWorld.navigationGPS.weather.constant.Constant.OPEN_DIRECTION_KEY;
 
 
 public class WeatherRepository {
+    private static final String TAG = "WeatherRepository";
+
+    public MutableLiveData<Directions> liveDirections =  new MutableLiveData<>();
     Weather weather;
     Alert alert;
     Geocode geocode;
     GO going;
     Direction direction;
+    Directions directions;
     private static WeatherRepository weatherRepository;
     private String language;
     private String lang;
+    private Context context;
 
     private TimeUnit timeUnit = TimeUnit.SECONDS;
     int timeDelay = 15;
@@ -93,6 +112,7 @@ public class WeatherRepository {
         geocode = new Geocode();
         going = new GO();
         direction = new Direction();
+        directions = new Directions();
     }
 
     //getting weather hourly
@@ -480,9 +500,51 @@ public class WeatherRepository {
     public Call<Climate> getClimate(String address){
         return ServiceGenerator.request.getClimate(CLIMATE_API,address,language);
     }
-//    public Observable<List<Direction>> getDirection(String origin, String destination){
-//        return DirectionGenerator.request.getDirectionApi(destination, origin, String.valueOf(R.string.google_maps_key))
-//                ;
-//    }
+
+    public void
+    getOpenDirections(String mode, String start, String end, Context context){
+         DirectionGenerator.request.getOpenDirection(mode,OPEN_DIRECTION_KEY,start,end)
+                .enqueue(new Callback<Directions>() {
+                    @Override
+                    public void onResponse(Call<Directions> call, Response<Directions> response) {
+                        if (response.isSuccessful()){
+                            if (response.body() != null){
+                                liveDirections.postValue(null);
+                                liveDirections.postValue(response.body());
+                                JSONConnector.getInstance(context).loading.setValue(false);
+                            }
+                            else{
+                                try{
+                                    JSONConnector.getInstance(context).loading.setValue(false);
+                                    Toast.makeText(context, context.getString(R.string.no_route_found), Toast.LENGTH_SHORT).show();
+                                }
+                                catch (Exception e){
+                                    Log.d(TAG, "onResponse: open Toast problem "+e.getMessage());
+                                }                            }
+                        }
+                        else{
+                            JSONConnector.getInstance(context).loading.setValue(false);
+                            try{
+                                Toast.makeText(context, context.getString(R.string.no_route_found), Toast.LENGTH_SHORT).show();
+                            }
+                            catch (Exception e){
+                                Log.d(TAG, "onResponse: open Toast problem "+e.getMessage());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Directions> call, Throwable t) {
+                        JSONConnector.getInstance(context).loading.setValue(false);
+                        try{
+                            Toast.makeText(context, context.getString(R.string.check_network), Toast.LENGTH_SHORT).show();
+                        }
+                        catch (Exception e){
+                            Log.d(TAG, "onResponse: open Toast problem "+e.getMessage());
+                        }
+                       // Log.d(TAG, "onFailure: there was a problem with open direction "+t.getMessage());
+                    }
+                });
+    }
 
 }

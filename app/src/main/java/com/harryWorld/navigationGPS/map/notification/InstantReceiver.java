@@ -17,7 +17,6 @@ import static com.harryWorld.navigationGPS.schedule.ScheduleUI.CHANNELID2;
 
 public class InstantReceiver extends BroadcastReceiver {
     private static final String TAG = "InstantReceiver";
-    private NotificationManager manager;
     @Override
     public void onReceive(Context context, Intent intent) {
         String title = intent.getStringExtra("instant_title");

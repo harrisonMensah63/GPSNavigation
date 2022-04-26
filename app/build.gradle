@@ -9,8 +9,8 @@ android {
         applicationId "com.harryWorld.navigationGPS"
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 16
-        versionName "1.0.7"
+        versionCode 17
+        versionName "1.1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
