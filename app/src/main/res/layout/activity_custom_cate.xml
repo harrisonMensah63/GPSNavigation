@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:id="@+id/show_on_map"
+        android:visibility="gone"
+        android:background="#fafafa"
+        android:elevation="100dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginBottom="0dp">
+
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/noo"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/mymap"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view_locations_on_map"
+            android:textStyle="italic"
+            android:textSize="18sp"
+            android:layout_toEndOf="@id/noo"
+            android:layout_marginStart="20dp"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:id="@+id/main_recyclerview"/>
+    <ProgressBar
+        android:progressTint="@color/tab_light"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_gravity="center"
+        android:id="@+id/progress_bar"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_results_found"
+        android:id="@+id/text_message"
+        android:gravity="center"
+        android:textSize="15sp"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        />
+</LinearLayout>

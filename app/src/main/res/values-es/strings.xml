@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Map weather</string>
-    <string name="title_activity_maps">Map</string>
-    <string name="title_activity_main2">MainActivity</string>
+    <string name="app_name">Navigate</string>
+    <string name="title_activity_maps">Navigate</string>
+    <string name="title_activity_main2">Navigate</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -120,4 +120,15 @@
     <string name="hour">hora</string>
     <string name="minutes">minutos</string>
     <string name="minute">minuto</string>
+    <string name="days">días</string>
+    <string name="day">día</string>
+    <string name="no_results_found">No se han encontrado resultados</string>
+    <string name="website">sitio web</string>
+    <string name="view_locations_on_map">ver ubicaciones en el mapa</string>
+    <string name="choose">Elegir</string>
+    <string name="no">no</string>
+    <string name="location_around">alrededor de su ubicación actual</string>
+    <string name="offline">desconectado</string>
+    <string name="swipe">Deslice una lista hacia la derecha para eliminar</string>
+    <string name="loading">cargando</string>
 </resources>

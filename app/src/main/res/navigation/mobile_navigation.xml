@@ -8,20 +8,20 @@
 
     <fragment
         android:id="@+id/current_fragment"
-        android:name="com.harryWorld.navigationGPS.weather.fragment.CurrentFragment"
+        android:name="com.harryWorld.weatherGPS.weather.fragment.CurrentFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/current_fragment"
         />
 
     <fragment
         android:id="@+id/hourly_fragment"
-        android:name="com.harryWorld.navigationGPS.weather.fragment.HourlyFragment"
+        android:name="com.harryWorld.weatherGPS.weather.fragment.HourlyFragment"
         android:label="@string/menu_gallery"
         tools:layout="@layout/hourly_fragment" />
 
     <fragment
         android:id="@+id/daily_fragment"
-        android:name="com.harryWorld.navigationGPS.weather.fragment.DailyFragment"
+        android:name="com.harryWorld.weatherGPS.weather.fragment.DailyFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/daily_fragment" />
 

@@ -6,43 +6,42 @@
     android:layout_height="match_parent"
     android:background="#f3f3f3"
     >
+
     <LinearLayout
+        android:id="@+id/linear_top"
         android:layout_width="match_parent"
         android:layout_height="47dp"
-        android:elevation="200dp"
-        android:layout_alignParentTop="true"
-        android:orientation="vertical"
         android:background="@color/tab_light"
-        android:id="@+id/linear_top"
-        >
-    <TextView
+        android:elevation="200dp"
+        android:orientation="vertical">
 
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textStyle="italic"
-        android:gravity="center"
-        android:textSize="22sp"
-        android:visibility="gone"
-        android:textColor="@color/white"
-        android:id="@+id/title_textview"
-        />
+        <TextView
+
+            android:id="@+id/title_textview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:textStyle="italic"
+            android:visibility="gone" />
 
         <EditText
-            android:hint="@string/place_name"
+            android:id="@+id/title_edit"
             android:layout_width="match_parent"
             android:layout_height="36dp"
+            android:layout_gravity="center"
             android:layout_marginStart="25dp"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="3dp"
             android:layout_marginEnd="24dp"
-            android:background="#FFF"
-            android:id="@+id/title_edit"
-            android:textSize="22sp"
-            android:gravity="center"
-            android:textStyle="italic"
-            android:layout_gravity="center"
+            android:layout_marginBottom="3dp"
             android:autofillHints=""
-            android:inputType="text" />
+            android:background="#FFF"
+            android:gravity="center"
+            android:hint="@string/place_name"
+            android:inputType="text"
+            android:textSize="22sp"
+            android:textStyle="italic" />
     </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"

@@ -2,15 +2,92 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="42dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:background="#fafafa">
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/image_categories"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/emergency"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/emergency"
+            android:id="@+id/categories_main"
+            android:textSize="20sp"
+            android:background="?attr/selectableItemBackground"
+            android:textStyle="bold"
+            android:textColor="@color/tab_light"
+            android:layout_marginStart="10dp"/>
+    </LinearLayout>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Emergency"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:text="@string/police"
+        android:textSize="20sp"
+        android:id="@+id/text_1"
+        android:gravity="center_vertical"
+        android:background="?attr/selectableItemBackground"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginStart="60dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:text="@string/police"
         android:textSize="20sp"
         android:gravity="center_vertical"
-        android:layout_gravity="center_vertical"
-        android:id="@+id/items_now"/>
+        android:id="@+id/text_2"
+        android:background="?attr/selectableItemBackground"
+        android:layout_marginStart="60dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:text="@string/police"
+        android:textSize="20sp"
+        android:gravity="center_vertical"
+        android:id="@+id/text_3"
+        android:background="?attr/selectableItemBackground"
+        android:layout_marginStart="60dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:text="@string/police"
+        android:textSize="20sp"
+        android:background="?attr/selectableItemBackground"
+        android:id="@+id/text_4"
+        android:gravity="center_vertical"
+        android:layout_marginStart="60dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:text="@string/police"
+        android:textSize="20sp"
+        android:id="@+id/text_5"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="4dp"
+        android:layout_marginStart="60dp"
+       />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#949595"
+        android:layout_marginStart="60dp"
+        android:layout_marginBottom="4dp"
+        />
 </LinearLayout>

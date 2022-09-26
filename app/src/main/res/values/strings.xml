@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">Weather Map-route with climate</string>
-    <string name="title_activity_maps">GPS Weather</string>
-    <string name="title_activity_main2">MainActivity</string>
+    <string name="app_name">Navigate</string>
+    <string name="title_activity_maps">Navigate</string>
+    <string name="title_activity_main2">Navigate</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -119,4 +119,15 @@
     <string name="hour">hour</string>
     <string name="minutes">minutes</string>
     <string name="minute">minute</string>
+    <string name="days">days</string>
+    <string name="day">day</string>
+    <string name="no_results_found">No Results Found</string>
+    <string name="website">website</string>
+    <string name="view_locations_on_map">view locations on map</string>
+    <string name="choose">Choose</string>
+    <string name="no">no</string>
+    <string name="location_around">around your current location</string>
+    <string name="offline">offline</string>
+    <string name="swipe">Swipe a list to the right to delete</string>
+    <string name="loading">Loading</string>
 </resources>

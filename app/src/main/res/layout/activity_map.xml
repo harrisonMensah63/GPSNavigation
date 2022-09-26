@@ -13,13 +13,15 @@
         >
 
         <ProgressBar
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_centerInParent="true"
-            android:progressTint="@color/tab_light"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:progressTint="@color/tab_dark"
             android:id="@+id/big_loading"
             android:visibility="gone"
             android:elevation="100dp"
+            android:layout_marginBottom="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@id/wrap_layout"
             />
 
 
@@ -38,16 +40,16 @@
             android:layout_marginTop="15dp"
             />
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/category_map"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="0dp"
-            android:layout_marginBottom="0dp"
-            tools:context=".MapsActivity" />
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/category_map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="0dp"
+                tools:context=".MapsActivity" />
 
         <ImageView
             android:elevation="15dp"
@@ -165,9 +167,9 @@
                     android:src="@drawable/bus" />
                 <ImageView
                     android:padding="5dp"
-                    android:src="@drawable/motor"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:src="@drawable/wheel_chair"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:layout_marginStart="10dp"
                     android:background="@drawable/search"
                     android:elevation="100dp"

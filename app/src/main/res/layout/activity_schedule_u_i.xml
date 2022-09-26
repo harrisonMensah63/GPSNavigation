@@ -18,45 +18,29 @@
         android:textSize="25sp"
         android:id="@+id/bar"
         />
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/bar">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="20"
-        >
+
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/schedule_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bar"
         android:layout_weight="17"
-        android:elevation="50dp"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
         android:background="@color/white"
-        android:id="@+id/schedule_recycler_view"/>
+        android:elevation="5dp" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_weight="3"
-            android:layout_width="0dp"
-            android:elevation="50dp"
-            android:background="@color/white"
-            android:layout_height="match_parent"
-            android:id="@+id/schedule_recycler_view_alarm"/>
-    </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="50dp"
-        android:id="@+id/floating"
+        android:layout_alignParentBottom="true"
         android:layout_marginEnd="50dp"
+        android:layout_marginBottom="50dp"
+        android:contentDescription="TODO"
         android:src="@drawable/ic_baseline_add_24"
-        android:tint="@color/white"
-        android:contentDescription="TODO" />
+        app:backgroundTint="@color/tab_light"
+         />
 
 
 </RelativeLayout>

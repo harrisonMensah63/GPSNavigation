@@ -32,9 +32,9 @@
 
     <ImageView
         android:padding="5dp"
-        android:src="@drawable/motor"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:src="@drawable/wheel_chair"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:layout_marginStart="10dp"
         android:background="@drawable/search"
         android:elevation="100dp"

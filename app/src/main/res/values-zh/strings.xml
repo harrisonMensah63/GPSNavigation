@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Map weather</string>
-    <string name="title_activity_maps">Map</string>
-    <string name="title_activity_main2">MainActivity</string>
+    <string name="app_name">Navigate</string>
+    <string name="title_activity_maps">Navigate</string>
+    <string name="title_activity_main2">Navigate</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -97,12 +97,12 @@
     <string name="schedule_title_empty">计划标题为空</string>
     <string name="map">地图</string>
     <string name="set_time">设置时间</string>
-    <string name="save">SAVE</string>
+    <string name="save">节省</string>
     <string name="only_update">只能更新</string>
     <string name="places">地方</string>
     <string name="set_address_name">请设置地址名称</string>
     <string name="title_name_empty">标题名称不能为空</string>
-    <string name="place_name">Place name</string>
+    <string name="place_name">地名</string>
     <string name="need_to_allow_location">您需要允许位置信息才能使用此应用程序</string>
     <string name="check_network">检查网络连接</string>
     <string name="current">当前的</string>
@@ -120,4 +120,15 @@
     <string name="hour">小时</string>
     <string name="minutes">分钟</string>
     <string name="minute">分钟</string>
+    <string name="days">天</string>
+    <string name="day">天</string>
+    <string name="no_results_found">未找到结果</string>
+    <string name="website">网站</string>
+    <string name="view_locations_on_map">在地图上查看位置</string>
+    <string name="choose">选择</string>
+    <string name="no">不</string>
+    <string name="location_around">在您当前的位置附近</string>
+    <string name="offline">离线</string>
+    <string name="swipe">向右滑动列表以删除</string>
+    <string name="loading">加载</string>
 </resources>

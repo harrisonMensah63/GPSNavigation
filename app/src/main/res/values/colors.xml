@@ -23,5 +23,6 @@
     <color name="activity_top_light">#B86832</color>
     <color name="activity_top_dark">#641D00</color>
     <color name="light_blue">#8DD8E6</color>
+    <color name="white_sub">#f2f2f2</color>
 
 </resources>

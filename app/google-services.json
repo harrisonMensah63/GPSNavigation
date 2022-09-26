@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "724475395085",
+    "project_id": "weather-gps",
+    "storage_bucket": "weather-gps.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:724475395085:android:37f39cfc8a34d636252944",
+        "android_client_info": {
+          "package_name": "com.harryWorld.weatherGPS"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "724475395085-v5t6v83slgsnbf9ajvfmv2bgh1j545rn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXGEXrmJzBykr6tWjjIANhtFSusFGFXP4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "724475395085-v5t6v83slgsnbf9ajvfmv2bgh1j545rn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -13,15 +13,15 @@
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
         android:layout_weight="55">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Schedule 1"
-        android:layout_marginStart="25dp"
-        android:textSize="18sp"
-        android:textColor="@color/black"
-        android:id="@+id/schedule_name"
-        />
+
+        <TextView
+            android:id="@+id/schedule_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:text="Schedule 1"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,21 +37,50 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
-        android:layout_weight="20">
+        android:layout_weight="17">
+
         <TextView
+            android:id="@+id/layout_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Jan 14"
-            android:textSize="16sp"
-            android:id="@+id/layout_date"
-            />
+            android:textSize="16sp" />
+
         <TextView
+            android:id="@+id/layout_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="19:45"
-            android:textSize="16sp"
-            android:id="@+id/layout_time"
             android:layout_below="@+id/layout_date"
-            />
+            android:text="19:45"
+            android:textSize="16sp" />
     </RelativeLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:background="#fafafa"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:id="@+id/alarm_layout"
+        android:layout_weight="3"
+        >
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/alarm_off"
+            android:id="@+id/alarm_off"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:contentDescription="TODO" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/alarm_on"
+            android:id="@+id/alarm_on"
+            android:visibility="gone"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:contentDescription="TODO" />
+    </LinearLayout>
+
 </LinearLayout>

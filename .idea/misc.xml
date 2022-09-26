@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/harry/Navigation/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.1875" />
+        <entry key="..\:/Users/harry/Navigation/app/src/main/res/layout/activity_adding_favourite.xml" value="0.11621621621621622" />
+        <entry key="..\:/Users/harry/Navigation/app/src/main/res/layout/activity_categories.xml" value="0.14" />
+        <entry key="..\:/Users/harry/Navigation/app/src/main/res/layout/activity_custom_cate.xml" value="0.11621621621621622" />
+        <entry key="..\:/Users/harry/Navigation/app/src/main/res/layout/activity_map.xml" value="0.1" />
+        <entry key="..\:/Users/harry/Navigation/app/src/main/res/layout/activity_plan_setting.xml" value="0.11621621621621622" />
+        <entry key="..\:/Users/harry/Navigation/app/src/main/res/layout/activity_schedule_u_i.xml" value="0.28842105263157897" />
+        <entry key="..\:/Users/harry/Navigation/app/src/main/res/layout/activity_search.xml" value="0.25" />
+        <entry key="..\:/Users/harry/Navigation/app/src/main/res/layout/alarm_layout.xml" value="0.11621621621621622" />
+        <entry key="..\:/Users/harry/Navigation/app/src/main/res/layout/custom_categories_list.xml" value="0.1" />
+        <entry key="..\:/Users/harry/Navigation/app/src/main/res/layout/layout_inside.xml" value="0.15" />
+        <entry key="..\:/Users/harry/Navigation/app/src/main/res/layout/layout_weather_widget.xml" value="0.11621621621621622" />
+        <entry key="..\:/Users/harry/Navigation/app/src/main/res/layout/schedule_view_layout.xml" value="0.11621621621621622" />
+      </map>
+    </option>
+  </component>
   <component name="NullableNotNullManager">
     <option name="myDefaultNullable" value="org.jetbrains.annotations.Nullable" />
     <option name="myDefaultNotNull" value="io.reactivex.annotations.NonNull" />

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.harryWorld.navigationGPS">
+    package="com.harryWorld.weatherGPS">
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the "MyLocation" functionality.
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
 
@@ -17,17 +18,17 @@
         android:roundIcon="@mipmap/harrry_icon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Navigation">
-        <activity android:name="com.harryWorld.navigationGPS.map.activity.SearchActivity" />
-        <activity android:name="com.harryWorld.navigationGPS.map.activity.NavigationActivity" />
-        <activity android:name="com.harryWorld.navigationGPS.map.activity.ModeActivity" />
-        <activity android:name="com.harryWorld.navigationGPS.map.activity.CategoriesActivity" />
+        <activity android:name="com.harryWorld.weatherGPS.map.activity.SearchActivity" />
+        <activity android:name="com.harryWorld.weatherGPS.map.activity.NavigationActivity" />
+        <activity android:name="com.harryWorld.weatherGPS.map.activity.ModeActivity" />
+        <activity android:name="com.harryWorld.weatherGPS.map.activity.CategoriesActivity" />
         <activity
-            android:name="com.harryWorld.navigationGPS.map.activity.PlanSettingActivity"
+            android:name="com.harryWorld.weatherGPS.map.activity.PlanSettingActivity"
             android:windowSoftInputMode="stateVisible" />
         <activity
-            android:name="com.harryWorld.navigationGPS.map.activity.AddingFavouriteActivity"
+            android:name="com.harryWorld.weatherGPS.map.activity.AddingFavouriteActivity"
             android:windowSoftInputMode="stateVisible" />
-        <activity android:name="com.harryWorld.navigationGPS.map.activity.YourPlaceActivity" />
+        <activity android:name="com.harryWorld.weatherGPS.map.activity.YourPlaceActivity" />
 
 <!--     PLACE YOUR GOOGLE MAPS API KEY HERE!!!!-->
         <meta-data
@@ -38,7 +39,7 @@
             android:value="ca-app-pub-2650278620916037~8623745849" />
 
         <activity
-            android:name="com.harryWorld.navigationGPS.MapsActivity"
+            android:name="com.harryWorld.weatherGPS.MapsActivity"
             android:label="@string/title_activity_maps"
             android:exported="true">
             <intent-filter>
@@ -47,15 +48,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.harryWorld.navigationGPS.weather.MainActivity" />
-        <activity android:name="com.harryWorld.navigationGPS.weather.forwardActivity.DailyActivity" />
-        <activity android:name="com.harryWorld.navigationGPS.weather.forwardActivity.HourlyActivity" />
-        <activity android:name="com.harryWorld.navigationGPS.weather.fragment.AlertActivity" />
-        <activity android:name="com.harryWorld.navigationGPS.schedule.ScheduleActivity" />
-        <activity android:name="com.harryWorld.navigationGPS.schedule.ScheduleUI" />
+        <activity android:name="com.harryWorld.weatherGPS.weather.MainActivity" />
+        <activity android:name="com.harryWorld.weatherGPS.weather.forwardActivity.DailyActivity" />
+        <activity android:name="com.harryWorld.weatherGPS.weather.forwardActivity.HourlyActivity" />
+        <activity android:name="com.harryWorld.weatherGPS.weather.fragment.AlertActivity" />
+        <activity android:name="com.harryWorld.weatherGPS.schedule.ScheduleActivity" />
+        <activity android:name="com.harryWorld.weatherGPS.schedule.ScheduleUI" />
+        <activity android:name="com.harryWorld.weatherGPS.map.activity.customCategories.CustomCateActivity" />
 
-        <receiver android:name="com.harryWorld.navigationGPS.map.notification.AlertReceiver" />
-        <receiver android:name="com.harryWorld.navigationGPS.map.notification.InstantReceiver" />
+        <receiver android:name="com.harryWorld.weatherGPS.map.notification.AlertReceiver" />
+        <receiver android:name="com.harryWorld.weatherGPS.map.notification.InstantReceiver" />
     </application>
 
 </manifest>

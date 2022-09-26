@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Wetterkarte-Route mit Klima</string>
-    <string name="title_activity_maps">Wetterkarte</string>
-    <string name="title_activity_main2">MainActivity</string>
+    <string name="app_name">Navigate</string>
+    <string name="title_activity_maps">Navigate</string>
+    <string name="title_activity_main2">Navigate</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -120,4 +120,15 @@
     <string name="hour">Stunde</string>
     <string name="minutes">Protokoll</string>
     <string name="minute">minute</string>
+    <string name="days">Tage</string>
+    <string name="day">Tag</string>
+    <string name="no_results_found">Keine Ergebnisse gefunden</string>
+    <string name="website">Webseite</string>
+    <string name="view_locations_on_map">Standorte auf der Karte anzeigen</string>
+    <string name="choose">Wählen</string>
+    <string name="no">nein</string>
+    <string name="location_around">rund um Ihren aktuellen Standort</string>
+    <string name="offline">offline</string>
+    <string name="swipe">Wischen Sie eine Liste nach rechts, um sie zu löschen</string>
+    <string name="loading">Wird geladen</string>
 </resources>
